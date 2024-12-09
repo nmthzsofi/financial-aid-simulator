@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forward College Financial Aid Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container align-items-center">
+        <h1 class="text-center text-primary row g-3">Financial Aid Calculator</h1>
+        <form id="financial-aid-form" class="row g-3">
+            <div class="row g-1">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                <small id="email-error" class="text-danger"></small>
+            </div>
+
+            <div class="row g-1">
+                <label for="program" class="form-label">Program</label>
+                <select id="program" class="form-select" required>
+                    <option value="" disabled selected>Select a program</option>
+                    <option value="single-bachelor">Single Bachelor</option>
+                    <option value="bachelor-plus">Bachelor+</option>
+                    <option value="double-bachelor">Double Bachelor</option>
+                    <option value="open-bachelor">Open Bachelor</option>
+                </select>
+            </div>
+
+            <div class="row g-1">
+                <label for="country" class="form-label">Country</label>
+                <select id="country" class="form-select" required>
+                    <option value="" disabled selected>Select your country</option>
+                </select>
+            </div>
+
+            <div class="row g-1">
+                <label for="grade" class="form-label">Average Grade (A-E)</label> 
+                <select id="grade" class="form-select" required>
+                    <option value="" disabled selected>Select a grade</option>
+                    <option value="a">A</option>
+                    <option value="b">B</option>
+                    <option value="c">C</option>
+                    <option value="d">D</option>
+                    <option value="e">E</option>
+                </select>
+            </div>
+
+            <div class="row g-1">
+                <label for="income" class="form-label">Net Family Income / Year (€)</label>
+                <input type="number" id="income" class="form-control" placeholder="Enter net family income" required>
+            </div>
+
+            <div class="row g-3">
+                <button type="button" id="calculate-button" class="btn btn-primary">Calculate</button>
+            </div>
+        </form>
+
+        <!-- Loading Spinner -->
+        <div id="loading-screen" class="d-none text-center my-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p>Loading...</p>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="d-none text-center my-5">
+            <h2 class="text-success">Financial Aid Estimate</h2>
+            <p id="result" class="fs-5"></p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

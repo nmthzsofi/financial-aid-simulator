@@ -1,0 +1,44 @@
+body {
+    background-color: #fdf7e3;
+
+}
+
+h1.text-primary {
+    color: #fd710d!important;
+}
+.main-container{
+    width: 60vw;
+    height: 100 vh;
+    padding-top: 5vh;
+    margin: auto;
+
+}
+
+h1{
+    padding-bottom: 5vh;
+}
+
+#error-message {
+    font-size: 0.9rem;
+    color: red;
+}
+
+button{
+    background-color:  #fd710d!important;
+    border: none!important;
+
+}
+
+button:hover {
+    background-color: #f58535!important;
+    color: #ffffff;
+}
+
+.spinner-border{
+    /*color:#fd710d!important;*/
+    color: black!important;
+}
+
+.text-success{
+    color:#fd710d!important;
+}
