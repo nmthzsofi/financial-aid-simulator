@@ -1,44 +1,322 @@
+/* General Styles */
 body {
-    background-color: #fdf7e3;
-
+    background-color: #fdf4ee;
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
 }
 
-h1.text-primary {
-    color: #fd710d!important;
-}
-.main-container{
-    width: 60vw;
-    height: 100 vh;
-    padding-top: 5vh;
+main {
+    width: 100%;
+    max-width: 600px;
     margin: auto;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center horizontally */
+    gap: 20px; /* Add spacing between elements */
+    min-height: 100vh; /* Full height of the viewport */
+}
+
+/* Heading Styles */
+h1 {
+    font-size: 2rem;
+    font-weight: lighter;
+    color: #eb5f33;
+    text-align: center;
+    margin-top: 10vh;
+    margin-bottom: 20px;
+    align-self: center;
+}
+
+#timer {
+    border-radius: 15px;
+    width: 10vw;
+    height: 6vh;
+    transform: scale(1.2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    background-color: #fdf4ee;
+}
+
+/* Page Container */
+.page {
+    width: 60vw;
+    height: 50vh;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center; 
+    text-align: center;
+    transition: cubic-bezier(1, 0, 0, 1);
+}
+
+/* Question Number */
+.question-number {
+    font-size: 1.2rem;
+    color: #888888;
+    margin-bottom: 10px;
+}
+
+/* Header Text */
+.header {
+    font-size: 2rem;
+    color: black;
+    margin-bottom: 10vh;
+}
+
+.options-div {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 15px; 
+    width: 50vw;
+    height:auto; 
+    margin: auto; 
+}
+#program{
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 15px; 
+    margin: auto; 
+}
+
+#diploma {
+    width: 100%; /* Ensure it adapts to the container width */
+    max-width: 90%; /* Limit the maximum width */
+    height: 8vh; /* Match the country selector's height */
+    background-color: #fdf4ee; /* Ensure consistent background */
+    color: #eb5f33; /* Match text color */
+    border: none; /* Remove any borders */
+    font-size: 1.3rem; /* Consistent font size */
+    padding: 15px; /* Add padding for alignment */
+    appearance: none; /* Remove default browser styling */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
+input[type="radio"] {
+    appearance: none; /* Remove default styling */
+    -webkit-appearance: none; /* For Safari */
+    -moz-appearance: none; /* For Firefox */
+    position: absolute; /* Optional: Hide it offscreen if needed */
+    opacity: 0; /* Make it invisible */
+}
+
+/* Option Label */
+.option-label {
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 20vw; 
+    max-width: 200px; 
+    padding: 15px 30px; 
+    background-color: #fdf4ee; 
+    color: #eb5f33; 
+    font-weight: bold;
+    font-size: 18px; 
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; 
+    overflow: hidden;
+}
+
+#calculate-button{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    width:20vw;
+    max-width: 200px; 
+    padding: 15px 30px; 
+
+    background-color: #fdf4ee;
+    color:#eb5f33;
+    border:none;
+}
+
+/* Spinner Styles */
+
+#spinner-div{
+
+    display:flex;
+    width:50px;
+    justify-content: center;
+    align-items: center;
+    padding-top:15vh;
+}
+
+.custom-spinner {
+    width: 50px;
+    height: 50px;
+    border: none; /* Light gray border */
+    border-top: 5px solid #eb5f33; /* Blue border for spinning effect */
+    border-radius: 50%; /* Make it circular */
+    animation: spin 1s linear infinite; /* Infinite spin animation */
+}
+
+/* Keyframes for rotation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+
+/* Hover and Focus Effects */
+.option-label:hover, #calculate-button {
+    color: #fdebd4;
+    background-color: #eb5f33;
+    border: 1px solid #eb5f33;
+}
+
+.option-label input:checked + .option-label {
+    background-color: #eb5f33;
+    color: white;
+}
+
+/* Radio Button Styles */
+.option-button {
+    display: none;
+}
+
+.form-select{
+    width: 35vw;
+    height: 8vh;
+    background-color: #fdf4ee;
+    color:#eb5f33;
+    border: none;
+    font-size:1.3rem;
+    padding:15px;
+    padding-right: 30px;
+}
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16"%3E%3Cpath fill="none" stroke="%23eb5f33" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6l4 4 4-4"/%3E%3C/svg%3E') no-repeat right center;
+    background-size: 1.2em;
+    padding-right: 4rem;
+    stroke: #eb5f33;
 
 }
 
-h1{
-    padding-bottom: 5vh;
-}
-
-#error-message {
-    font-size: 0.9rem;
-    color: red;
-}
-
-button{
-    background-color:  #fd710d!important;
-    border: none!important;
+#income{
+    display:inline;
+    background-color:#fdf4ee;
+    width: 25vw;
+    height: 5vh;
+    font-size: 1.3rem;
+    border:none;
+    padding: 0.5rem;
 
 }
 
-button:hover {
-    background-color: #f58535!important;
-    color: #ffffff;
+
+
+
+
+
+
+/* Media Queries for Responsiveness */
+
+/* For Tablets and Smaller Screens */
+@media (max-width: 910px) {
+    .page {
+        width: 80vw; /* Reduce width for better fit */
+        height: auto; /* Let height adjust dynamically */
+        padding: 20px; /* Reduce padding */
+    }
+
+    .options-div {
+        width: 90%; /* Adjust width to fit smaller screens */
+    }
+
+    .option-label {
+        width: 40%; /* Reduce button width for smaller screens */
+        font-size: 16px; /* Reduce font size slightly */
+        padding: 10px 15px; /* Reduce padding */
+    }
+
+    h1 {
+        font-size: 1.8rem; /* Slightly smaller font for heading */
+        margin-top: 5vh; /* Reduce top margin */
+    }
+
+    .header{
+        font-size: 20px;
+        margin-bottom: 3vh;
+    }
+    #timer {
+        display: none;
+    }
+    .form-select{
+        width:90vh;
+    }
+    .option-label:hover, #calculate-button {
+        color: #fdebd4;
+        background-color: #eb5f33;
+        border: 1px solid #eb5f33;
+    }
+
 }
 
-.spinner-border{
-    /*color:#fd710d!important;*/
-    color: black!important;
-}
+/* For Mobile Devices */
+@media (max-width: 480px) {
+    .page {
+        width: 90%; /* Take most of the screen width */
+        height: 70%; /* Adjust height dynamically */
+        padding: 15px; /* Further reduce padding */
+    }
 
-.text-success{
-    color:#fd710d!important;
+    .options-div {
+        width: 100%; /* Full width for better alignment */
+        gap: 10px; /* Reduce gap */
+    }
+
+    .option-label {
+        width: 90%; /* Make buttons full-width for mobile */
+        font-size: 14px; /* Smaller font size */
+        padding: 10px; /* Reduce padding */
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Smaller font for mobile */
+        margin-top: 5vh; /* Adjust top margin */
+    }
+
+    #timer {
+        display: none;
+    }
+    .header{
+        font-size: 16px;
+    }
+    .form-select{
+        width:90vh;
+    }
+    .option-label:hover, #calculate-button {
+        color: #fdebd4;
+        background-color: #eb5f33;
+        border: 1px solid #eb5f33;
+    }
+    #income{
+        font-size: 0.5rem;
+    }
 }
