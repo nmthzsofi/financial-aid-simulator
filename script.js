@@ -5,15 +5,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingScreen = document.getElementById('loading-screen');
     const resultScreen = document.getElementById('result-screen');
     const resultText = document.getElementById('result');
-    const countryDropdown = document.getElementById('country');
-    const programDropdown = document.getElementById('program');
+    const countryDropdown = document.getElementById('country'); 
+    const programRadio = document.getElementById('program');
+    const diplomaDropdown = document.getElementById('diploma');
     const gradeDropdown = document.getElementById('grade');
-    const netIncome = document.getElementById('income');
+    const netIncome = document.getElementById('income'); 
 
-
-    //Creating the dropdown list of countries
+//OPTION LOADERS -----------------------------------------------------------------------------------------------------------------------
+    //WORKING: Creating the dropdown list of countries
    function countries_loader() {
-        let countries_array = ["Bermuda", "Cayman Islands", "Turks and Caicos Islands", "Switzerland", "Barbados", "Bahamas", "Iceland", "Israel", "New Caledonia", "Denmark", "Ireland", "Virgin Islands", "Palau", "United States", "Vanuatu", "Luxembourg", "Australia", "New Zealand", "United Kingdom", "Norway", "Canada", "Finland", "Lebanon", "Netherlands", "Belgium", "Sweden", "Malta", "Austria", "France", "Germany", "Singapore", "Slovenia", "Qatar", "Hong Kong", "Japan", "United Arab Emirates", "Italy", "South Korea", "Estonia", "Spain", "Costa Rica", "Macao", "Czech Republic", "Portugal", "Lithuania", "Slovakia", "Greece", "Haiti", "Mexico", "Chile", "Croatia", "Hungary", "China", "Saudi Arabia", "Brazil", "Honduras", "Serbia", "El Salvador", "Albania", "Poland", "Ecuador", "East Timor", "Guatemala", "Romania", "Bulgaria", "Brunei", "Montenegro", "South Africa", "Morocco", "Iraq", "Ethiopia", "Philippines", "Colombia", "Cambodia", "Kazakhstan", "Ghana", "Indonesia", "Cameroon", "Russia", "Zambia", "Eswatini", "Benin", "Bolivia", "Nigeria", "Lesotho", "Thailand", "Malaysia", "Cyprus", "Kenya", "Azerbaijan", "Mongolia", "Kyrgyzstan", "Mauritania", "Turkey", "Algeria", "Georgia", "Vietnam", "Tajikistan", "Tunisia", "Belarus", "Bangladesh", "Ukraine", "Sri Lanka", "Tanzania", "Nepal", "Uzbekistan", "Bhutan", "Laos", "Suriname", "Libya", "Myanmar", "India", "Zimbabwe", "Pakistan", "Egypt"];
+        let countries_array = ["Albania", "Algeria", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bangladesh", "Barbados", "Belarus", "Belgium", "Benin", "Bermuda", "Bhutan", "Bolivia", "Brazil", "Brunei", "Bulgaria", "Cambodia", "Cameroon", "Canada", "Cayman Islands", "Chile", "China", "Colombia", "Costa Rica", "Croatia", "Cyprus", "Czech Republic", "Denmark", "East Timor", "Ecuador", "Egypt", "El Salvador", "Estonia", "Eswatini", "Ethiopia", "Finland", "France", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iraq", "Ireland", "Israel", "Italy", "Japan", "Kazakhstan", "Kenya", "Kyrgyzstan", "Laos", "Lebanon", "Lesotho", "Libya", "Lithuania", "Luxembourg", "Macao", "Malaysia", "Malta", "Mauritania", "Mexico", "Mongolia", "Montenegro", "Morocco", "Myanmar", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nigeria", "Norway", "Pakistan", "Palau", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Suriname", "Sweden", "Switzerland", "Tajikistan", "Tanzania", "Thailand", "Tunisia", "Turkey", "Turks and Caicos Islands", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uzbekistan", "Vanuatu", "Vietnam", "Virgin Islands", "Zambia", "Zimbabwe"];
+
         const countryDropdown = document.getElementById("country");
 
             countries_array.forEach(element => {
@@ -28,8 +30,154 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     countries_loader();
 
+    //WORKING: Creating the dropdown list of possible high school diploma types 
+    async function diploma_type_loader(){
+        try {
+            //console.log('Fetching Grade Potential CSV...');
+            const response = await fetch('grade_potential.csv'); // Path to your program prices CSV
+            if (!response.ok) {
+                console.error('Error fetching file:', response.statusText);
+                return null;
+            }
+    
+            const csvText = await response.text();
+            const rows = csvText.split('\n').map(row => row.split(',')); // Parse CSV into rows
+            const headers = rows[0]; // First row as headers
+            const dataRows = rows.slice(1); // Remaining rows for data
+    
+            //console.log('Grade Potential Data:', dataRows);
+    
+            
+            // Create an array out of the first items in each line to get the possible diploma types 
+            const diplomas_array = [];
 
-    // Function to fetch the country data
+            dataRows.forEach(row => {
+                diplomas_array.push(row[0]);
+
+            });
+
+            //console.log('Possible high school types: ', diplomas_array);
+
+            //Populate the diploma types dropdown
+            diplomas_array.forEach(element => {
+                const diplomaItem = document.createElement("option");
+                diplomaItem.value = element; // Set the value attribute
+                diplomaItem.textContent = element; // Set the visible text
+
+                // Append the option to the dropdown
+                diplomaDropdown.appendChild(diplomaItem);
+
+            //Populate the average grade dropdown
+             
+                
+            });
+
+
+            
+        } catch (error) {
+            console.error('Error fetching or processing Grade Potential CSV:', error);
+            return null;
+        }
+
+    }
+    diploma_type_loader();
+    
+    //WORKING: Creating the dropdown list of possible high school diploma grades based on the selected program
+    async function diploma_grade_options_loader(diplomaDropdownValue) {
+        try {
+            console.log('Fetching Grade Potential CSV...');
+            const response = await fetch('grade_potential.csv'); // Check if this path works
+            if (!response.ok) {
+                console.error('Error fetching grade potential file:', response.statusText);
+                return;
+            }
+            const csvText = await response.text();
+            const rows = csvText.split('\n').map(row => row.split(','));
+            console.log('Grade Potential CSV Content:', rows);
+    
+            const headers = rows[0];
+            const dataRows = rows.slice(1);
+    
+            const matchingRow = dataRows.find(row => row[0].trim() === diplomaDropdownValue);
+            if (matchingRow) {
+                const rowData = {};
+                headers.forEach((header, index) => {
+                    rowData[header.trim()] = matchingRow[index]?.trim();
+                });
+                console.log('Matching Row Data:', rowData);
+    
+                if (rowData && typeof rowData === 'object') {
+                    const gradeDropdown = document.getElementById('grade');
+                    if (!gradeDropdown) {
+                        console.error('The gradeDropdown div is missing!');
+                        return;
+                    }
+    
+                    gradeDropdown.innerHTML = ''; // Clear previous options
+    
+                    const values = Object.values(rowData).slice(1); // Exclude the first definition
+                    const letters = ['a', 'b', 'c', 'd', 'e']; // Predefined letter sequence
+                    let letterIndex = 0; // Counter for letters
+
+
+                    values.forEach((element, index) => {
+                        if (!element || element.trim() === "") return; // Skip empty values
+    
+                        // Create radio button
+                        const radioWrapper = document.createElement("label");
+                        radioWrapper.classList.add("option-label");
+    
+                        const radioButton = document.createElement("input");
+                        radioButton.type = "radio";
+                        radioButton.name = "grades";
+                        radioButton.classList.add("grade-label", "option-button");
+                        radioButton.value = letters[letterIndex];
+                        letterIndex++;
+    
+                        // Add navigation attributes
+                        radioButton.dataset.current = "4"; // Current question ID
+                        radioButton.dataset.next = "5"; // Next question ID
+    
+                        // Set text
+                        radioWrapper.textContent = element;
+                        radioWrapper.prepend(radioButton);
+    
+                        // Append to dropdown
+                        gradeDropdown.appendChild(radioWrapper);
+                    });
+    
+                    // Append the static "Lower" option
+                    const staticWrapper = document.createElement("label");
+                    staticWrapper.classList.add("option-label");
+    
+                    const staticRadio = document.createElement("input");
+                    staticRadio.type = "radio";
+                    staticRadio.name = "grades";
+                    staticRadio.classList.add("grade-label", "option-button");
+                    staticRadio.value = "Lower";
+    
+                    // Add navigation attributes for "Lower"
+                    staticRadio.dataset.current = "4";
+                    staticRadio.dataset.next = "5";
+    
+                    staticWrapper.textContent = "Lower";
+                    staticWrapper.prepend(staticRadio);
+    
+                    // Append the static option to the dropdown
+                    gradeDropdown.appendChild(staticWrapper);
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching or processing CSV:', error);
+        }
+    }
+    
+
+    
+
+//FILE IMPUTS -----------------------------------------------------------------------------------------------------------------------------
+
+    // WORKING: Function to fetch the country data csv - EU or not + Country factor
     async function fetchCountryData(selectedCountry) {
         try {
             console.log('Fetching CSV...');
@@ -61,8 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching or processing CSV:', error);
         }
     }
-
-    // Function to fetch the programme prices
+    // WORKING: Function to fetch the programme prices csv
     async function fetchProgramCost(selectedProgram, countryType) {
         try {
             console.log('Fetching Program Pricing CSV...');
@@ -101,8 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return null;
         }
     }
-
-    // Function to fetch the academic factors
+    // WORKING: Function to fetch the academic factors csv
     async function fetchAcademicFactor(selectedGrade) {
         try {
             console.log('Fetching CSV...');
@@ -122,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const gradeIndex = headers.indexOf(selectedGrade);
             if (gradeIndex === -1) {
-                console.error('Invalid garde:', selectedGrade);
+                console.error('Invalid grade:', selectedGrade);
                 return null;
             }
     
@@ -135,7 +281,8 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error fetching or processing CSV:', error);
         }
     }
-    
+
+//BACKGROUND CALCULATION ------------------------------------------------------------------------------------------------------------------   
     function financialAidCalculator (academicFactor, programCost,countryFactor ) {
 
         const netIncomeReference = netIncome.value/ (countryFactor / 100);
@@ -144,8 +291,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return 0;
         }
 
-
-        let maxAid = academicFactor*programCost*((100000-netIncomeReference)/(100000*1.05/100)/100);
+        //TO-DO: Remove last two digits and make them 0s    
+        let maxAid = academicFactor*programCost*((100000-netIncomeReference)/100000*1.05/100)*100;
         console.log(maxAid);
 
         if (academicFactor == 1.3){
@@ -161,16 +308,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
 
     }
-    // Funcion to fetch the academic factors
+
+//EVENT LISTENERS ------------------------------------------------------------------------------------------------------------------------
+
+    //Working?? Calculate everything when the calculate button is clicked
     calculateButton.addEventListener('click', async function () {
         const selectedCountry = countryDropdown.value;
-        const selectedProgram = programDropdown.value;
-        const selectedGrade = gradeDropdown.value;
+        const selectedProgram = programRadio.querySelector('input[name="question-1"]:checked').value;
+        const selectedGrade = document.querySelector('input[name="grades"]:checked').value;
+
+        /*
     
         if (!emailField.value || emailError.textContent) {
             alert('Please provide a valid email address.');
             return;
         }
+        
+        */
     
         if (!selectedCountry || selectedCountry === "Select your country") {
             alert('Please select a valid country.');
@@ -186,20 +340,20 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Please select a valid grade.');
             return;
         }
-    
-        loadingScreen.classList.remove('d-none');
+        
+        document.getElementById('question-5').style.display = 'none';
+        loadingScreen.style.display = 'block';
     
         const countryData = await fetchCountryData(selectedCountry);
-        if (!countryData) {
-            alert('Could not fetch data for the selected country.');
-            loadingScreen.classList.add('d-none');
-            return;
-        }
-    
         const countryType = countryData['EEA/SW/UK or Non'];
         const countryFactor = countryData['Country factor'];
         const programCost = await fetchProgramCost(selectedProgram, countryType);
         const academicFactor = await fetchAcademicFactor (selectedGrade);
+
+        console.log('The selected country type: ', countryType);
+        console.log('The selected country factor: ', countryFactor);
+        console.log('The selected program cost: ', programCost);
+        console.log('The academic factor: ', academicFactor);
 
         let maxAid;
 
@@ -227,26 +381,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
         setTimeout(function () {
-            loadingScreen.classList.add('d-none');
+            loadingScreen.style.display = 'none';
             if (programCost) {
-                resultScreen.classList.remove('d-none');
+                resultScreen.style.display = 'block';
 
                 if(minAid < 0 || maxAid < 0){
                     resultText.textContent = `You are not eligible for financial aid.`
                 } else{ 
-                    resultText.textContent = `The expected financial aid you can receive: €${Math.floor (minAid)} - €${Math.floor (maxAid)}`;
+                    resultText.textContent = `The expected financial aid you can receive: €${Math.trunc (minAid/100)*100} - €${Math.trunc (maxAid/100)*100}`;
                 } 
 
                 
             } else {
                 resultText.textContent = 'No data available for the selected program.';
             }
-        }, 2500);
-    });
+        }, 1500);
+    }); 
 
-       
 
-    // Validate email format
+
+// NOT WORKING: (no email field yet) Validate email format
+    /*
     emailField.addEventListener('input', function() {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(emailField.value)) {
@@ -255,4 +410,66 @@ document.addEventListener('DOMContentLoaded', function() {
             emailError.textContent = '';
         }
     });
+    */
+
+    
+//WORKING: changing between different pages when the answer is selected
+document.addEventListener('change', function (event) {
+    // Ellenőrizd, hogy a `radio` gombra kattintottak-e
+    if (event.target && event.target.type === 'radio') {
+        const currentQuestionId = event.target.dataset.current; // Az aktuális kérdés ID-ja
+        const nextQuestionId = event.target.dataset.next; // A következő kérdés ID-ja
+
+        const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
+        const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
+
+        if (currentQuestion) {
+            currentQuestion.style.display = 'none'; // Az aktuális kérdés elrejtése
+        }
+
+        if (nextQuestion) {
+            nextQuestion.style.display = 'block'; // A következő kérdés megjelenítése
+        }
+    }
+});
+
+
+    const dropdown = document.getElementById('country'); // Azonosítjuk a select elemet
+
+    dropdown.addEventListener('change', function () {
+        const currentQuestionId = dropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
+        const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
+
+        const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
+        const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
+
+        if (dropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
+            if (currentQuestion) {
+                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+            }
+            if (nextQuestion) {
+                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+            }
+        }
+    });
+
+    diplomaDropdown.addEventListener('change', function () {
+        const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
+        const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
+
+        const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
+        const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
+
+        if (diplomaDropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
+            if (currentQuestion) {
+                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+            }
+            if (nextQuestion) {
+                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+            }
+        }
+
+        diploma_grade_options_loader(diplomaDropdown.value);
+    });
+
 });
