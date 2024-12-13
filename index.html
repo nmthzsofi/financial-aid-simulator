@@ -9,99 +9,100 @@
 </head>
 <body>
     <main>
+        <h1>Financial Aid Calculator</h1>
+        <div class="page-container">
 
-    <h1>Financial Aid Calculator</h1>
-
-    <div id="question-0" class="page">
-        <p class="question-number"></p>
-        
-        <p id="timer">
-        <svg xmlns="http://www.w3.org/2000/svg" width="27.465" height="30.967" viewBox="0 0 27.465 30.967">
-            <g id="TIMER_PICTO" data-name="TIMER PICTO" transform="translate(0.25 0.25)">
-              <g id="Groupe_18402" data-name="Groupe 18402">
-                <path id="Tracé_1023" data-name="Tracé 1023" d="M25.9,11.737A13.472,13.472,0,0,0,14.322,3.528a.3.3,0,0,0,.018-.1V1.767a.292.292,0,0,0-.006-.055h2.353a.83.83,0,0,0,.829-.829V.829A.83.83,0,0,0,16.688,0H10.277a.83.83,0,0,0-.829.829V.883a.83.83,0,0,0,.829.829h2a.292.292,0,0,0-.006.055V3.428a.3.3,0,0,0,.028.126A13.479,13.479,0,0,0,3.949,26.518,13.486,13.486,0,0,0,25.9,11.737m-12.423,17.1A11.847,11.847,0,1,1,25.33,16.985,11.861,11.861,0,0,1,13.482,28.832" transform="translate(0)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
-                <path id="Tracé_1024" data-name="Tracé 1024" d="M374.321,293.718a.864.864,0,0,0,.433-.273l5.113-5.973a.868.868,0,0,0-.095-1.224l-.05-.043a.868.868,0,0,0-1.224.095l-4.556,5.321" transform="translate(-360.603 -275.795)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
-                <path id="Tracé_1025" data-name="Tracé 1025" d="M351.137,245.045a.864.864,0,0,0-.154.488l-.041,7.862a.868.868,0,0,0,.863.872h.066a.868.868,0,0,0,.872-.863l.036-7" transform="translate(-338.423 -236.303)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
-                <path id="Tracé_1026" data-name="Tracé 1026" d="M354.494,238.843v-6.976a.868.868,0,0,0-.868-.868h-.066a.868.868,0,0,0-.868.868v7.863a.868.868,0,0,0,.455.764" transform="translate(-340.11 -222.76)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
-              </g>
-            </g>
-          </svg>
-          1 minutes
-        </p>
+            <div id="question-0" class="page active">
+                <p class="question-number"></p>
+                
+                <p id="timer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="27.465" height="30.967" viewBox="0 0 27.465 30.967">
+                    <g id="TIMER_PICTO" data-name="TIMER PICTO" transform="translate(0.25 0.25)">
+                      <g id="Groupe_18402" data-name="Groupe 18402">
+                        <path id="Tracé_1023" data-name="Tracé 1023" d="M25.9,11.737A13.472,13.472,0,0,0,14.322,3.528a.3.3,0,0,0,.018-.1V1.767a.292.292,0,0,0-.006-.055h2.353a.83.83,0,0,0,.829-.829V.829A.83.83,0,0,0,16.688,0H10.277a.83.83,0,0,0-.829.829V.883a.83.83,0,0,0,.829.829h2a.292.292,0,0,0-.006.055V3.428a.3.3,0,0,0,.028.126A13.479,13.479,0,0,0,3.949,26.518,13.486,13.486,0,0,0,25.9,11.737m-12.423,17.1A11.847,11.847,0,1,1,25.33,16.985,11.861,11.861,0,0,1,13.482,28.832" transform="translate(0)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
+                        <path id="Tracé_1024" data-name="Tracé 1024" d="M374.321,293.718a.864.864,0,0,0,.433-.273l5.113-5.973a.868.868,0,0,0-.095-1.224l-.05-.043a.868.868,0,0,0-1.224.095l-4.556,5.321" transform="translate(-360.603 -275.795)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
+                        <path id="Tracé_1025" data-name="Tracé_1025" d="M351.137,245.045a.864.864,0,0,0-.154.488l-.041,7.862a.868.868,0,0,0,.863.872h.066a.868.868,0,0,0,.872-.863l.036-7" transform="translate(-338.423 -236.303)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
+                        <path id="Tracé_1026" data-name="Tracé_1026" d="M354.494,238.843v-6.976a.868.868,0,0,0-.868-.868h-.066a.868.868,0,0,0-.868.868v7.863a.868.868,0,0,0,.455.764" transform="translate(-340.11 -222.76)" fill="#e85e34" stroke="#e85e34" stroke-width="0.5"></path>
+                      </g>
+                    </g>
+                  </svg>
+                  1 minutes
+                </p>
 
 
-        <p class="header">Let's calculate your financial aid</p>
-        <p>This is a financial aid calculator aimed to ...</p>
-        <div class="options-div">
-            <label class="option-label"><input name="question-0" data-current="0" data-next="1" class="option-button" type="radio" value="start">Start</label>
+                <p class="header">Let's calculate your financial aid</p>
+                <p>This is a financial aid calculator aimed to ...</p>
+                <div class="options-div">
+                    <label class="option-label">
+                        <input name="question-0" data-current="0" data-next="1" class="option-button" type="radio" value="start">Start
+                    </label>
+                </div>
+            </div>    
+
+            <div id="question-1" class="page">
+                <p class="question-number">Question N° 1</p>
+                <p class="header">Which program are you interested in?</p>
+                <div class="options-div">
+                    <form id="program">
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="single-bachelor">Single Bachelor's</label>
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="bachelor-plus">Bachelor's Plus</label>
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="double-bachelor">Double Bachelor's</label>
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="open-bachelor">Open Bachelor's</label>
+                    </form>      
+                </div>
+            </div>
+
+            <div id="question-2" class="page">
+                <p class="question-number">Question N° 2</p>
+                <p class="header">Which country are you from?</p>
+                <div class="options-div">
+                    <select id="country" class="form-select" required>
+                        <option value="" disabled selected>Select your country</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="question-3" class="page">
+                <p class="question-number">Question N° 3</p>
+                <p class="header">What is the type of your high school diploma?</p>
+                <div class="options-div">
+                    <select id="diploma" class="form-select" required>
+                        <option value="" disabled selected>High school diploma type</option>
+                    </select>
+                </div>
+            </div>
+            <div id="question-4" class="page">
+                <p class="question-number">Question N° 4</p>
+                <p class="header">Average grade over the past two years</p>
+                <div id="grade" class="options-div">
+                    <input type="radio" name="grades" data-current="4" data-next="5" value="Excellent">
+                </div>
+            </div>
+
+            <div id="question-5" class="page">
+                <p class="question-number">Question N° 5</p>
+                <p class="header">Net Family Income / Year (€)</p>
+                <div class="options-div">
+                    <input type="number" id="income" class="form-control" placeholder="Enter amount in €" required>
+                    <button type="button" id="calculate-button" class="button">Calculate</button>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading-screen" class="page">
+                <div class="options-div" id="spinner-div">
+                    <div class="custom-spinner"></div>        
+                    <p>Loading...</p>
+                </div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="result-screen" class="page">
+                <h2 class="text-success">Financial Aid Estimate</h2>
+                <p id="result" class="fs-5"></p>
+            </div>
         </div>
-    </div>    
-
-    <div id="question-1" class="page" style="display: none;">
-        <p class="question-number">Question N° 1</p>
-        <p class="header">Which program are you interested in?</p>
-        <div class="options-div">
-            <form id="program">
-            <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="single-bachelor">Single Bachelor's</label>
-            <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="bachelor-plus">Bachelor's Plus</label>
-            <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="double-bachelor">Double Bachelor's</label>
-            <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="open-bachelor">Open Bachelor's</label>
-            </form>      
-        </div>
-    </div>
-
-    <div id="question-2" class="page" style="display: none;">
-        <p class="question-number">Question N° 2</p>
-        <p class="header">Which country are you from?</p>
-        <div class="options-div">
-            <select id="country" class="form-select" required>
-                <option value="" disabled selected>Select your country</option>
-            </select>
-        </div>
-    </div>
-
-    <div id="question-3" class="page" style="display:none;">
-        <p class="question-number">Question N° 3</p>
-        <p class="header">What is the type of your high school diploma?</p>
-        <div class="options-div">
-            <select id="diploma" class="form-select" required>
-                <option value="" disabled selected>High school diploma type</option>
-            </select>
-        </div>
-    </div>
-    <div id="question-4" class="page" style="display:none;">
-        <p class="question-number">Question N° 4</p>
-        <p class="header">Average grade over the past two years</p>
-        <div id="grade" class="options-div">
-            <input type="radio" name="grades" data-current="4" data-next="5" value="Excellent">
-        </div>
-    </div>
-
-    <div id="question-5" class="page" style="display:none;">
-        <p class="question-number">Question N° 5</p>
-        <p class="header">Net Family Income / Year (€)</p>
-        <div class="options-div">
-            <input type="number" id="income" class="form-control" placeholder="Enter amount in €" required>
-            <button type="button" id="calculate-button" class="button">Calculate</button>
-        </div>
-    </div>
-
-    <!-- Loading Spinner -->
-    <div id="loading-screen" class="page" style="display:none;">
-        <div class="options-div" id="spinner-div">
-        <div class="custom-spinner"></div>        
-        <p>Loading...</p>
-        </div>
-    </div>
-
-    <!-- Result Screen -->
-    <div id="result-screen" class="page" style="display:none;">
-        <h2 class="text-success">Financial Aid Estimate</h2>
-        <p id="result" class="fs-5"></p>
-    </div>
-</div>
-
     </main>
     <script src="script.js"></script>
 </body> 
-</html>   
+</html> 

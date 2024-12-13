@@ -11,6 +11,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const gradeDropdown = document.getElementById('grade');
     const netIncome = document.getElementById('income'); 
 
+
+//Page transition
+function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.remove('active')); // Hide all pages
+    document.getElementById(`question-${pageId}`).classList.add('active'); // Show the selected page
+}
+
+
 //OPTION LOADERS -----------------------------------------------------------------------------------------------------------------------
     //WORKING: Creating the dropdown list of countries
    function countries_loader() {
@@ -341,8 +350,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        document.getElementById('question-5').style.display = 'none';
-        loadingScreen.style.display = 'block';
+        document.getElementById('question-5').classList.remove('active');
+        loadingScreen.classList.add('active');
     
         const countryData = await fetchCountryData(selectedCountry);
         const countryType = countryData['EEA/SW/UK or Non'];
@@ -381,9 +390,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
         setTimeout(function () {
-            loadingScreen.style.display = 'none';
+            loadingScreen.classList.remove('active');
             if (programCost) {
-                resultScreen.style.display = 'block';
+                resultScreen.classList.add('active');
 
                 if(minAid < 0 || maxAid < 0){
                     resultText.textContent = `You are not eligible for financial aid.`
@@ -414,24 +423,30 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
 //WORKING: changing between different pages when the answer is selected
-document.addEventListener('change', function (event) {
-    // Ellenőrizd, hogy a `radio` gombra kattintottak-e
-    if (event.target && event.target.type === 'radio') {
-        const currentQuestionId = event.target.dataset.current; // Az aktuális kérdés ID-ja
-        const nextQuestionId = event.target.dataset.next; // A következő kérdés ID-ja
+    document.addEventListener('change', function (event) {
+        if (event.target && event.target.type === 'radio') {
+            const currentQuestionId = event.target.dataset.current; // Current question ID
+            const nextQuestionId = event.target.dataset.next; // Next question ID
 
-        const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
-        const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
+            const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
+            const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
 
-        if (currentQuestion) {
-            currentQuestion.style.display = 'none'; // Az aktuális kérdés elrejtése
+            showPage(nextQuestionId);
+
+            if (currentQuestion) {
+                console.log(`Hiding Current Question: ${currentQuestionId}`);
+                currentQuestion.classList.remove('active');
+            }
+
+            if (nextQuestion) {
+                console.log(`Showing Next Question: ${nextQuestionId}`);
+                nextQuestion.classList.add('active');
+                console.log('Next Question Class List:', nextQuestion.classList);
+            } else {
+                console.error(`Next Question not found: ${nextQuestionId}`);
+            }
         }
-
-        if (nextQuestion) {
-            nextQuestion.style.display = 'block'; // A következő kérdés megjelenítése
-        }
-    }
-});
+    });
 
 
     const dropdown = document.getElementById('country'); // Azonosítjuk a select elemet
@@ -445,31 +460,37 @@ document.addEventListener('change', function (event) {
 
         if (dropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
             if (currentQuestion) {
-                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+                currentQuestion.classList.remove('active'); // Aktuális kérdés elrejtése
             }
             if (nextQuestion) {
-                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+                nextQuestion.classList.add('active'); // Következő kérdés megjelenítése
             }
         }
     });
 
     diplomaDropdown.addEventListener('change', function () {
-        const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
-        const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
-
+        const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Current question ID
+        const nextQuestionId = parseInt(currentQuestionId) + 1; // Next question ID
+    
+        console.log('Current Question ID:', currentQuestionId);
+        console.log('Next Question ID:', nextQuestionId);
+    
         const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
         const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
-
-        if (diplomaDropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
+    
+        if (diplomaDropdown.value) {
             if (currentQuestion) {
-                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+                currentQuestion.classList.remove('active'); // Hide current question
             }
             if (nextQuestion) {
-                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+                nextQuestion.classList.add('active'); // Show next question
+            } else {
+                console.error('Next Question not found:', nextQuestionId);
             }
         }
-
-        diploma_grade_options_loader(diplomaDropdown.value);
+    
+        diploma_grade_options_loader(diplomaDropdown.value); // Populate grades
     });
+    
 
 });

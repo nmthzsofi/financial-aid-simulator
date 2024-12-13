@@ -17,10 +17,10 @@ main {
     padding: 20px;
 
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center horizontally */
-    gap: 20px; /* Add spacing between elements */
-    min-height: 100vh; /* Full height of the viewport */
+    flex-direction: column; 
+    align-items: center; 
+    gap: 20px; 
+    min-height: 100vh; 
 }
 
 /* Heading Styles */
@@ -48,9 +48,20 @@ h1 {
 }
 
 /* Page Container */
-.page {
+.page-container {
+    position: relative;
     width: 60vw;
     height: 50vh;
+    /* This container now defines the space for all pages */
+}
+
+/* Page styling */
+.page {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-color: white;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -60,7 +71,16 @@ h1 {
     justify-content: center; 
     align-items: center; 
     text-align: center;
-    transition: cubic-bezier(1, 0, 0, 1);
+    opacity: 0; /* Start fully hidden */
+    transform: translateY(-20px); /* Start slightly above */
+    transition: opacity 0.4s ease, transform 0.8s ease; /* Smooth fade and slide */
+    pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.page.active {
+    opacity: 1; /* Fully visible */
+    transform: translateY(0); /* Positioned normally */
+    pointer-events: auto; /* Allow interaction */
 }
 
 /* Question Number */
@@ -91,16 +111,30 @@ h1 {
     flex-wrap: wrap; 
     justify-content: center; 
     gap: 15px; 
-    width: auto; 
     margin: auto; 
 }
 
+#diploma {
+    width: 100%; 
+    max-width: 90%; 
+    height: 8vh; 
+    background-color: #fdf4ee; 
+    color: #eb5f33; 
+    border: none; 
+    font-size: 1.3rem; 
+    padding: 15px; 
+    appearance: none; 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+
 input[type="radio"] {
-    appearance: none; /* Remove default styling */
-    -webkit-appearance: none; /* For Safari */
-    -moz-appearance: none; /* For Firefox */
-    position: absolute; /* Optional: Hide it offscreen if needed */
-    opacity: 0; /* Make it invisible */
+    appearance: none; 
+    -webkit-appearance: none; 
+    -moz-appearance: none; 
+    position: absolute; 
+    opacity: 0; 
 }
 
 /* Option Label */
@@ -135,9 +169,7 @@ input[type="radio"] {
 }
 
 /* Spinner Styles */
-
-#spinner-div{
-
+#spinner-div {
     display:flex;
     width:50px;
     justify-content: center;
@@ -148,13 +180,12 @@ input[type="radio"] {
 .custom-spinner {
     width: 50px;
     height: 50px;
-    border: none; /* Light gray border */
-    border-top: 5px solid #eb5f33; /* Blue border for spinning effect */
-    border-radius: 50%; /* Make it circular */
-    animation: spin 1s linear infinite; /* Infinite spin animation */
+    border: none; 
+    border-top: 5px solid #eb5f33; 
+    border-radius: 50%; 
+    animation: spin 1s linear infinite;
 }
 
-/* Keyframes for rotation */
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -165,9 +196,8 @@ input[type="radio"] {
 }
 
 
-
 /* Hover and Focus Effects */
-.option-label:hover, #calculate-button {
+.option-label:hover, #calculate-button:hover {
     color: #fdebd4;
     background-color: #eb5f33;
     border: 1px solid #eb5f33;
@@ -201,7 +231,6 @@ select {
     background-size: 1.2em;
     padding-right: 4rem;
     stroke: #eb5f33;
-
 }
 
 #income{
@@ -212,84 +241,82 @@ select {
     font-size: 1.3rem;
     border:none;
     padding: 0.5rem;
-
 }
 
-
-
-
-
-
-
-/* Media Queries for Responsiveness */
+/* Media Queries */
 
 /* For Tablets and Smaller Screens */
 @media (max-width: 910px) {
-    .page {
-        width: 80vw; /* Reduce width for better fit */
-        height: auto; /* Let height adjust dynamically */
-        padding: 20px; /* Reduce padding */
+    .page-container {
+        width: 80vw;
+        height: auto;
     }
 
     .options-div {
-        width: 90%; /* Adjust width to fit smaller screens */
+        width: 90%; 
     }
 
     .option-label {
-        width: 40%; /* Reduce button width for smaller screens */
-        font-size: 16px; /* Reduce font size slightly */
-        padding: 10px 15px; /* Reduce padding */
+        width: 40%; 
+        font-size: 16px; 
+        padding: 10px 15px; 
     }
 
     h1 {
-        font-size: 1.8rem; /* Slightly smaller font for heading */
-        margin-top: 5vh; /* Reduce top margin */
+        font-size: 1.8rem; 
+        margin-top: 5vh; 
     }
 
-    .header{
+    .header {
         font-size: 20px;
         margin-bottom: 3vh;
     }
+
     #timer {
         display: none;
     }
-    .form-select{
-        width:auto;
-    }
 
+    .form-select {
+        width:90vh;
+    }
 }
 
 /* For Mobile Devices */
 @media (max-width: 480px) {
-    .page {
-        width: 90%; /* Take most of the screen width */
-        height: 70%; /* Adjust height dynamically */
-        padding: 15px; /* Further reduce padding */
+    .page-container {
+        width: 90%;
+        height: 70%;
     }
 
     .options-div {
-        width: 100%; /* Full width for better alignment */
-        gap: 10px; /* Reduce gap */
+        width: 100%;
+        gap: 10px;
     }
 
     .option-label {
-        width: 90%; /* Make buttons full-width for mobile */
-        font-size: 14px; /* Smaller font size */
-        padding: 10px; /* Reduce padding */
+        width: 90%; 
+        font-size: 14px; 
+        padding: 10px; 
     }
 
     h1 {
-        font-size: 1.5rem; /* Smaller font for mobile */
-        margin-top: 5vh; /* Adjust top margin */
+        font-size: 1.5rem; 
+        margin-top: 5vh; 
     }
 
     #timer {
         display: none;
     }
-    .header{
+
+    .header {
         font-size: 16px;
     }
-    .form-select{
-        width:auto;
+
+    .form-select {
+        width:90vh;
+    }
+
+    #income {
+        font-size: 0.5rem;
     }
 }
