@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const emailField = document.getElementById('email');
+    const emailRadio = document.getElementById('email-radio');
     const emailError = document.getElementById('email-error');
     const calculateButton = document.getElementById('calculate-button');
     const loadingScreen = document.getElementById('loading-screen');
@@ -9,7 +10,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const programRadio = document.getElementById('program');
     const diplomaDropdown = document.getElementById('diploma');
     const gradeDropdown = document.getElementById('grade');
-    const netIncome = document.getElementById('income'); 
+    const netIncome = document.getElementById('income');
+
+    const portalId = '27159977';
+    const formGuid = '0c5ec7cb-9333-4519-8370-61f29eff2bc1';
+
+    const hubspotEndpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`;
+
+
+//Page transition
+function showPage(pageId) {
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.remove('active')); // Hide all pages
+    document.getElementById(`question-${pageId}`).classList.add('active'); // Show the selected page
+}
+
 
 //OPTION LOADERS -----------------------------------------------------------------------------------------------------------------------
     //WORKING: Creating the dropdown list of countries
@@ -135,8 +150,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         letterIndex++;
     
                         // Add navigation attributes
-                        radioButton.dataset.current = "4"; // Current question ID
-                        radioButton.dataset.next = "5"; // Next question ID
+                        radioButton.dataset.current = "5"; // Current question ID
+                        radioButton.dataset.next = "6"; // Next question ID
     
                         // Set text
                         radioWrapper.textContent = element;
@@ -309,22 +324,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
     }
 
+    function loanSoftener(netIncome, programCost){
+        let maxAid = 0;
+
+        console.log(netIncome.value);
+
+        if (30000 < netIncome.value && netIncome.value < 70000) {
+            maxAid = programCost * 0.75;
+            console.log("We are in the *0.75 option");
+        }
+        else if (70000 < netIncome.value && netIncome.value < 85000) {
+            maxAid = programCost * 0.6;
+            console.log("We are in the *0.6 option");
+        }
+        else if (85000 < netIncome.value && netIncome.value < 100000) {
+            maxAid = programCost * 0.3;
+            console.log("We are in the *0.3 option");
+        }
+        else {
+            return 0;
+        }
+        
+
+        return maxAid;
+
+    }
+
 //EVENT LISTENERS ------------------------------------------------------------------------------------------------------------------------
 
-    //Working?? Calculate everything when the calculate button is clicked
+    //WORKING: Calculate everything when the calculate button is clicked
     calculateButton.addEventListener('click', async function () {
         const selectedCountry = countryDropdown.value;
         const selectedProgram = programRadio.querySelector('input[name="question-1"]:checked').value;
         const selectedGrade = document.querySelector('input[name="grades"]:checked').value;
-
-        /*
-    
-        if (!emailField.value || emailError.textContent) {
-            alert('Please provide a valid email address.');
-            return;
-        }
-        
-        */
     
         if (!selectedCountry || selectedCountry === "Select your country") {
             alert('Please select a valid country.');
@@ -341,8 +373,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        document.getElementById('question-5').style.display = 'none';
-        loadingScreen.style.display = 'block';
+        document.getElementById('question-5').classList.remove('active');
+        loadingScreen.classList.add('active');
     
         const countryData = await fetchCountryData(selectedCountry);
         const countryType = countryData['EEA/SW/UK or Non'];
@@ -358,16 +390,23 @@ document.addEventListener('DOMContentLoaded', function() {
         let maxAid;
 
         switch (countryDropdown.value){
-            case "France": return 0;
-            case "Italy": return 0;
-            case "Sweden": return 0;
-            case "Norway": return 0;
-            case "Finland": return 0;
-            case "United Kingdom": return 0;
+            case "France": maxAid = loanSoftener(netIncome, programCost); break;
+            case "Italy": maxAid = loanSoftener(netIncome, programCost); break;
+            case "Sweden": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
+            case "Norway": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
+            case "Finland": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
+            case "United Kingdom": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 5000; break;
             default: maxAid = financialAidCalculator(academicFactor, programCost, countryFactor); break;
 
         }
+
+
+        if (maxAid > programCost){
+            maxAid = programCost;
+        }
+
         let minAid = maxAid;
+
 
         if(0 < maxAid <= 10000){
             minAid -= 2000;
@@ -380,10 +419,42 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
     
+
+        // Prepare HubSpot payload
+        const hubspotData = {
+            fields: [
+            { name: 'email', value: emailField.value },
+            { name: 'forward_programmes', value: selectedProgram },
+            { name: 'highschool_diploma_country', value: selectedCountry },
+            { name: 'high_school_diploma_name', value:  diplomaDropdown.value},
+            { name: 'average_grade_over_last_two_school', value: selectedGrade },
+            { name: 'family_income', value: netIncome.value },
+            { name: 'minimum_aid', value: minAid},
+            { name: 'maximum_aid', value: maxAid}
+
+            ]
+        };
+    
+        // Send data to HubSpot
+        fetch(hubspotEndpoint, {
+            method: 'POST',
+            headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(hubspotData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('HubSpot submission successful:', data);
+        })
+        .catch(error => {
+            console.error('Error submitting data to HubSpot:', error);
+        });
+
         setTimeout(function () {
-            loadingScreen.style.display = 'none';
+            loadingScreen.classList.remove('active');
             if (programCost) {
-                resultScreen.style.display = 'block';
+                resultScreen.classList.add('active');
 
                 if(minAid < 0 || maxAid < 0){
                     resultText.textContent = `You are not eligible for financial aid.`
@@ -398,78 +469,83 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }); 
 
+    //WORKING: changing between different pages when the answer is selected
+    document.addEventListener('change', function (event) {
+        
+        if (event.target && event.target.type === 'radio') {
+            const currentQuestionId = event.target.dataset.current; // Current question ID
+            const nextQuestionId = event.target.dataset.next; // Next question ID
 
+            const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
+            const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
 
-// NOT WORKING: (no email field yet) Validate email format
-    /*
-    emailField.addEventListener('input', function() {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(emailField.value)) {
-            emailError.textContent = 'Please enter a valid email address.';
-        } else {
-            emailError.textContent = '';
+            if (currentQuestionId == 1 ){
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (!emailField.value || !emailRegex.test(emailField.value) || emailError.textContent) {
+                    alert('Please provide a valid email address.');
+                    event.target.checked = false;
+                    return;
+                }  
+            }
+
+            showPage(nextQuestionId);
+
+            if (currentQuestion) {
+                console.log(`Hiding Current Question: ${currentQuestionId}`);
+                currentQuestion.classList.remove('active');
+            }
+
+            if (nextQuestion) {
+                console.log(`Showing Next Question: ${nextQuestionId}`);
+                nextQuestion.classList.add('active');
+                console.log('Next Question Class List:', nextQuestion.classList);
+            } else {
+                console.error(`Next Question not found: ${nextQuestionId}`);
+            }
         }
     });
-    */
 
-    
-//WORKING: changing between different pages when the answer is selected
-document.addEventListener('change', function (event) {
-    // Ellenőrizd, hogy a `radio` gombra kattintottak-e
-    if (event.target && event.target.type === 'radio') {
-        const currentQuestionId = event.target.dataset.current; // Az aktuális kérdés ID-ja
-        const nextQuestionId = event.target.dataset.next; // A következő kérdés ID-ja
-
-        const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
-        const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
-
-        if (currentQuestion) {
-            currentQuestion.style.display = 'none'; // Az aktuális kérdés elrejtése
-        }
-
-        if (nextQuestion) {
-            nextQuestion.style.display = 'block'; // A következő kérdés megjelenítése
-        }
-    }
-});
-
-
-    const dropdown = document.getElementById('country'); // Azonosítjuk a select elemet
-
-    dropdown.addEventListener('change', function () {
-        const currentQuestionId = dropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
+    countryDropdown.addEventListener('change', function () {
+        const currentQuestionId = countryDropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
         const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
 
         const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
         const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
 
-        if (dropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
+        if (countryDropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
             if (currentQuestion) {
-                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+                currentQuestion.classList.remove('active'); // Aktuális kérdés elrejtése
             }
             if (nextQuestion) {
-                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+                nextQuestion.classList.add('active'); // Következő kérdés megjelenítése
             }
         }
     });
 
     diplomaDropdown.addEventListener('change', function () {
-        const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
-        const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
-
+        const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Current question ID
+        const nextQuestionId = parseInt(currentQuestionId) + 1; // Next question ID
+    
+        console.log('Current Question ID:', currentQuestionId);
+        console.log('Next Question ID:', nextQuestionId);
+    
         const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
         const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
-
-        if (diplomaDropdown.value) { // Ellenőrizzük, hogy választottak-e valamit
+    
+        if (diplomaDropdown.value) {
             if (currentQuestion) {
-                currentQuestion.style.display = 'none'; // Aktuális kérdés elrejtése
+                currentQuestion.classList.remove('active'); // Hide current question
             }
             if (nextQuestion) {
-                nextQuestion.style.display = 'block'; // Következő kérdés megjelenítése
+                nextQuestion.classList.add('active'); // Show next question
+            } else {
+                console.error('Next Question not found:', nextQuestionId);
             }
         }
-
-        diploma_grade_options_loader(diplomaDropdown.value);
+    
+        diploma_grade_options_loader(diplomaDropdown.value); // Populate grades
     });
+
 
 });
