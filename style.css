@@ -103,12 +103,11 @@ h1 {
     justify-content: center; 
     gap: 15px; 
     width: 50vw;
-    height:auto; 
+    height: auto; 
     margin: auto; 
 }
 
-
-#program{
+#program {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
@@ -157,14 +156,13 @@ input[type="radio"] {
     overflow: hidden;
 }
 
-#calculate-button{
-    display:flex;
+#calculate-button {
+    display: flex;
     justify-content: center;
     align-items: center;
     width:20vw;
     max-width: 200px; 
     padding: 15px 30px; 
-
     background-color: #fdf4ee;
     color:#eb5f33;
     border:none;
@@ -205,7 +203,8 @@ input[type="radio"] {
     border: 1px solid #eb5f33;
 }
 
-.option-label input:checked + .option-label {
+/* Use a proper selector for checked state */
+input[type="radio"]:checked + label.option-label {
     background-color: #eb5f33;
     color: white;
 }
@@ -215,7 +214,7 @@ input[type="radio"] {
     display: none;
 }
 
-.form-select{
+.form-select {
     width: 35vw;
     height: 8vh;
     background-color: #fdf4ee;
@@ -225,6 +224,7 @@ input[type="radio"] {
     padding:15px;
     padding-right: 30px;
 }
+
 select {
     appearance: none;
     -webkit-appearance: none;
@@ -235,7 +235,7 @@ select {
     stroke: #eb5f33;
 }
 
-#income, #email{
+#income, #email {
     display:block;
     background-color:#fdf4ee;
     width: 25vw;
@@ -250,12 +250,13 @@ select {
 
 /* For Tablets and Smaller Screens */
 @media (max-width: 910px) {
-    .page{
+    .page {
         height:90%;
     }
+
     .page-container {
         width: 80vw;
-        height: 90%;
+        height: 90vh;
     }
 
     .options-div {
@@ -284,18 +285,19 @@ select {
     }
 
     .form-select {
-        width:90vh;
+        width:90vw;
     }
 }
 
 /* For Mobile Devices */
 @media (max-width: 480px) {
-    .page{
+    .page {
         height:90%;
     }
+
     .page-container {
         width: 90%;
-        height: 90%;
+        height: 90vh;
     }
 
     .options-div {
@@ -324,7 +326,7 @@ select {
     }
 
     .form-select {
-        width:90vh;
+        width:90vw;
     }
 
     #income {
