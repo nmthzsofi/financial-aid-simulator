@@ -316,7 +316,7 @@ select {
         margin-bottom: 2vh;
     }
 
-    .form-select, #income {
+    .form-select, .form-control, #income {
         width: 95%;
     }
 }
