@@ -251,7 +251,7 @@ select {
 /* For Tablets and Smaller Screens */
 @media (max-width: 910px) {
     .page{
-        height:auto;
+        height:90%;
     }
     .page-container {
         width: 80vw;
@@ -291,7 +291,7 @@ select {
 /* For Mobile Devices */
 @media (max-width: 480px) {
     .page{
-        height:auto;
+        height:90%;
     }
     .page-container {
         width: 90%;
