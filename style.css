@@ -255,7 +255,7 @@ select {
     }
     .page-container {
         width: 80vw;
-        height: auto;
+        height: 90%;
     }
 
     .options-div {
@@ -295,7 +295,7 @@ select {
     }
     .page-container {
         width: 90%;
-        height: 70%;
+        height: 90%;
     }
 
     .options-div {
