@@ -249,25 +249,27 @@ select {
 /* Media Queries */
 
 /* For Tablets and Smaller Screens */
+/* For Tablets and Smaller Screens */
 @media (max-width: 910px) {
     .page {
-        height:90%;
+        min-height: 80vh; /* Prevent content squishing */
+        padding: 20px; /* Add spacing */
     }
 
     .page-container {
         width: 80vw;
-        height: 90vh;
+        min-height: 85vh; 
     }
 
     .options-div {
-        width: 90%; 
-        height:auto;
+        width: 90%;
+        height: auto;
     }
 
     .option-label {
-        width: 40%; 
-        font-size: 16px; 
-        padding: 10px 15px; 
+        width: 45%; /* Slightly smaller buttons */
+        font-size: 14px;
+        padding: 10px 15px;
     }
 
     h1 {
@@ -281,55 +283,48 @@ select {
     }
 
     #timer {
-        display: none;
-    }
-
-    .form-select {
-        width:90vw;
+        display: none; /* Hide timer for smaller screens */
     }
 }
 
 /* For Mobile Devices */
 @media (max-width: 480px) {
     .page {
-        height:90%;
+        min-height: 75vh; /* Ensure enough space */
+        padding: 15px; /* Maintain spacing */
     }
 
     .page-container {
-        width: 90%;
-        height: 90vh;
+        width: 95%; /* Make it more responsive */
+        min-height: 80vh;
     }
 
     .options-div {
         width: 100%;
-        height:90%;
         gap: 10px;
     }
 
     .option-label {
-        width: 90%; 
-        font-size: 14px; 
-        padding: 10px; 
+        width: 90%; /* Full width for buttons */
+        font-size: 14px;
+        padding: 8px;
     }
 
     h1 {
-        font-size: 1.5rem; 
-        margin-top: 5vh; 
+        font-size: 1.5rem;
+        margin-top: 4vh; /* Ensure spacing */
+    }
+
+    .header {
+        font-size: 16px;
+        margin-bottom: 2vh;
     }
 
     #timer {
         display: none;
     }
 
-    .header {
-        font-size: 16px;
-    }
-
-    .form-select {
-        width:90vw;
-    }
-
-    #income {
-        font-size: 0.5rem;
+    .form-select, #income {
+        width: 95%;
     }
 }
