@@ -252,12 +252,12 @@ select {
 /* For Tablets and Smaller Screens */
 @media (max-width: 910px) {
     .page {
-        min-height: 80vh; /* Prevent content squishing */
+        min-height: 70vh; /* Prevent content squishing */
         padding: 20px; /* Add spacing */
     }
 
     .page-container {
-        width: 80vw;
+        width: 70vw;
         min-height: 85vh; 
     }
 
@@ -281,22 +281,18 @@ select {
         font-size: 20px;
         margin-bottom: 3vh;
     }
-
-    #timer {
-        display: none; /* Hide timer for smaller screens */
-    }
 }
 
 /* For Mobile Devices */
 @media (max-width: 480px) {
     .page {
-        min-height: 75vh; /* Ensure enough space */
+        min-height: 65vh; /* Ensure enough space */
         padding: 15px; /* Maintain spacing */
     }
 
     .page-container {
         width: 95%; /* Make it more responsive */
-        min-height: 80vh;
+        min-height: 70vh;
     }
 
     .options-div {
@@ -318,10 +314,6 @@ select {
     .header {
         font-size: 16px;
         margin-bottom: 2vh;
-    }
-
-    #timer {
-        display: none;
     }
 
     .form-select, #income {
