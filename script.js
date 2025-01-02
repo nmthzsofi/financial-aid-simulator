@@ -150,8 +150,8 @@ function showPage(pageId) {
                         letterIndex++;
     
                         // Add navigation attributes
-                        radioButton.dataset.current = "5"; // Current question ID
-                        radioButton.dataset.next = "6"; // Next question ID
+                        radioButton.dataset.current = "4"; // Current question ID
+                        radioButton.dataset.next = "5"; // Next question ID
     
                         // Set text
                         radioWrapper.textContent = element;
@@ -479,7 +479,7 @@ function showPage(pageId) {
             const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
             const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
 
-            if (currentQuestionId == 1 ){
+            if (currentQuestionId == 6 ){
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
                 if (!emailField.value || !emailRegex.test(emailField.value) || emailError.textContent) {

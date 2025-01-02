@@ -1,7 +1,7 @@
 /* General Styles */
 body {
     background-color: #fdf4ee;
-    font-family: 'Open Sans', sans-serif;
+    font-family:'Open Sans', 'Arial', sans-serif;
     margin: 0;
     padding: 0;
     display: flex;
@@ -44,7 +44,28 @@ h1 {
     align-items: center;
     justify-content: center;
     gap: 1.5vh;
-    background-color: #fdf4ee;
+    background-color: #fff4ec;
+    border: 1px solid #fff4ed;
+    color:#eb5f33;
+    font-weight:600;
+}
+
+.control-button{
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    width: 10vw; 
+    max-width: 200px; 
+    padding: 15px 30px; 
+    background-color: white;
+    border: 2px solid #eb5f33;
+    font-weight: bold;
+    font-size: 18px; 
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; 
+    overflow: hidden;
+    color:#eb5f33;
 }
 
 /* Page Container */
@@ -52,6 +73,7 @@ h1 {
     position: relative;
     width: 60vw;
     height: 50vh;
+    color:#454545;
     /* This container now defines the space for all pages */
 }
 
@@ -66,16 +88,32 @@ h1 {
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 40px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
+    gap: 30px; /* Even spacing between all child elements */
+    opacity: 0; /* Start fully hidden */
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.8s ease; 
+    pointer-events: none;
+}
+/*
+.page {
     display: flex;
     flex-direction: column;
     justify-content: center; 
     align-items: center; 
-    text-align: center;
-    opacity: 0; /* Start fully hidden */
-    transform: translateY(-20px); /* Start slightly above */
-    transition: opacity 0.4s ease, transform 0.8s ease; /* Smooth fade and slide */
-    pointer-events: none; /* Prevent interaction when hidden */
+    gap: 20px; 
+    padding: 40px; 
+    opacity: 0; 
+    transform: translateY(-20px);
+    transition: opacity 0.4s ease, transform 0.8s ease; 
+    pointer-events: none;
 }
+*/
+
 
 .page.active {
     opacity: 1; /* Fully visible */
@@ -87,24 +125,39 @@ h1 {
 .question-number {
     font-size: 1.2rem;
     color: #888888;
-    margin-bottom: 10px;
+    margin: 0;
 }
 
+#header-main{
+    margin-bottom:20px;
+    margin-top:none;
+}
 /* Header Text */
 .header {
     font-size: 2rem;
-    color: black;
-    margin-bottom: 5vh;
+    color: rgb(64, 63, 63);
+    margin-bottom: 40px;
+    margin:0;
+}
+
+.span{
+    display:block;
+    height:100px;
+}
+
+.p-text{
+    width:45vw;
+    font-size: 1.1rem;
+    font-weight: 100;
 }
 
 .options-div {
     display: flex; 
     flex-wrap: wrap; 
     justify-content: center; 
-    gap: 15px; 
-    width: 50vw;
-    height: auto; 
-    margin: auto; 
+    gap: 15px; /* Space between input elements */
+    width: 60vw;
+    margin: 0; /* Remove extra margins */
 }
 
 #program {
@@ -116,8 +169,6 @@ h1 {
 }
 
 #diploma {
-    width: 100%; 
-    max-width: 90%; 
     height: 8vh; 
     background-color: #fdf4ee; 
     color: #eb5f33; 
@@ -143,7 +194,7 @@ input[type="radio"] {
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    width: 20vw; 
+    width: 15vw; 
     max-width: 200px; 
     padding: 15px 30px; 
     background-color: #fdf4ee; 
@@ -154,6 +205,7 @@ input[type="radio"] {
     cursor: pointer;
     transition: all 0.3s ease-in-out; 
     overflow: hidden;
+    margin:0;
 }
 
 #calculate-button {
@@ -197,7 +249,7 @@ input[type="radio"] {
 
 
 /* Hover and Focus Effects */
-.option-label:hover, #calculate-button:hover {
+.option-label:hover, .control-button:hover, #calculate-button:hover {
     color: #fdebd4;
     background-color: #eb5f33;
     border: 1px solid #eb5f33;
