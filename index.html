@@ -11,7 +11,6 @@
     <main>
         <h1></h1>
         <div class="page-container">
-
             <div id="question-0" class="page active">
                 <p class="question-number"></p>
                 <p class="header" id="header-main">Am I eligible for Financial aid?</p>
@@ -32,7 +31,7 @@
                 </p>
                 <div class="options-div">
                     <label class="control-button">
-                        <input name="question-0" data-current="0" data-next="1" class="option-button" type="radio" value="start">Start
+                        <input id="primary-start-btn" name="question-0" data-current="0" data-next="1" class="option-button" type="radio" value="start">Start
                     </label>
                 </div>
             </div>    
@@ -43,8 +42,8 @@
                 <p class="header">Which program are you interested in?</p>
                 <div class="options-div">
                     <form id="program">
-                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="single-bachelor">Single Bachelor's</label>
-                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="bachelor-plus">Bachelor's Plus</label>
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="single-bachelor">Bachelor's</label>
+                        <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="bachelor-plus">Bachelor's +</label>
                         <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="double-bachelor">Double Bachelor's</label>
                         <label class="option-label"><input name="question-1" data-current="1" data-next="2" class="option-button" type="radio" value="open-bachelor">Open Bachelor's</label>
                     </form>      
@@ -54,10 +53,10 @@
             <div id="question-2" class="page">
                 <span class="span"></span>
                 <p class="question-number">Question N° 2</p>
-                <p class="header">Which country are you from?</p>
+                <p class="header">What is your country of residence?</p>
                 <div class="options-div">
                     <select id="country" class="form-select" required>
-                        <option value="" disabled selected>Select your country</option>
+                        <option value="" disabled selected>Select an option</option>
                     </select>
                 </div>
                 <span class="span"></span>
@@ -66,10 +65,10 @@
             <div id="question-3" class="page">
                 <span class="span"></span>
                 <p class="question-number">Question N° 3</p>
-                <p class="header">What is the type of your high school diploma?</p>
+                <p class="header">Please select your high school diploma</p>
                 <div class="options-div">
                     <select id="diploma" class="form-select" required>
-                        <option value="" disabled selected>High school diploma type</option>
+                        <option value="" disabled selected>Select an option</option>
                     </select>
                 </div>
                 <span class="span"></span>
@@ -78,9 +77,12 @@
             <div id="question-4" class="page">
                 <span class="span"></span>
                 <p class="question-number">Question N° 4</p>
-                <p class="header">Average grade over the past two years</p>
+                <div class="grades-div">
+                <p class="header">What is your final or predicted overall grade?*</p>
+                <p>If you haven't finished high school yet, provide your predicted average grade or the average of your last 2 terms.</p>
+                </div>
                 <div id="grade" class="options-div">
-                    <input type="radio" name="grades" name="question-4" data-current="4" data-next="5" value="Excellent">
+                    <input type="radio" id="grade" name="grades" name="question-4" data-current="4" data-next="5" value="Excellent">
                 </div>
                 <span class="span"></span>
             </div>
@@ -88,27 +90,53 @@
             <div id="question-5" class="page">
                 <span class="span"></span>
                 <p class="question-number">Question N° 5</p>
-                <p class="header">Net Family Income / Year (€)</p>
-                <div class="options-div">
+                <p class="header">What is your household's yearly income after taxes (€)?</p>
+                <div class="options-div income-div">
                     <input type="number" id="income" class="form-control" placeholder="Enter amount in €" required>
-                    <label class="option-label">
-                        <input name="question-5" data-current="5" data-next="6" class="option-button" type="radio" id="email-radio" value="next">Next
+                    <label id="income-radio-label" class="option-label">
+                        <input name="question-5" data-current="5" data-next="6" class="option-button" type="radio" id="income-radio" value="next">Next
                     </label>
                 </div>
                 <span class="span"></span>
                 
             </div>
 
-            <div id="question-6"  class="page">
-
-                <p class="header">Please provide your email address</p>
-                <div class="options-div">
-                    <label for="email"></label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
-                    <small id="email-error" class="text-danger"></small>
-                    <button type="button" id="calculate-button" class="button">Calculate</button>
-                </div>
-            </div>
+            <div id="question-6" class="page last-page">
+                <p class="header last">Thank you for completing the Financial Aid Calculator.</p>
+                <p class="header header-form">Fill in this form to discover your result!</p>
+                <form class="lead-capture">
+                    <label for="first-name">First Name *<input id="first-name" type="text" required></label>
+                    <label for="last-name">Last Name *<input id="last-name" type="text" required></label>                    
+                    <label for="email">Email *<input id="email" type="email" required></label> 
+                    <label for="phone">Phone Number<input id="phone" type="number"></label>   
+                    <label for="start-year">When are you considering to attend university *
+                    <select id="start-year">
+                        <option value="" disabled selected>Select an option</option>
+                        <option>2025</option>
+                        <option>2026</option>
+                        <option>2027 or later</option>
+                    </select></label>
+                    <label for="fwd-program">What programme are you interested in? *
+                    <select id="fwd-program">
+                        <option value="" disabled selected>Select an option</option>
+                        <option>Business & Management</option>
+                        <option>Economics</option>
+                        <option>Economics & Politics</option>
+                        <option>Economics & Management</option>
+                        <option>Politics & International Relations</option>
+                        <option>Data Science & Business Analytics</option>
+                        <option>Psychology</option>
+                        <option>Open Bachelor's</option>
+                        <option>A combination of subjects</option>
+                        <option>I don't know yet</option>
+                    </select></label>
+                </form>    
+                
+                <small id="email-error" class="text-danger"></small>
+                <label class="control-button">
+                    <input id="calculate-button" class="option-button" type="radio" value="calculate">Calculate
+                </label>
+             </div>    
 
             
 
@@ -122,7 +150,7 @@
 
             <!-- Result Screen -->
             <div id="result-screen" class="page">
-                <h2 class="text-success">Financial Aid Estimate</h2>
+                <h2 class="text-success">Thank you for completing the Financial Aid Calculator.</h2>
                 <p id="result" class="fs-5"></p>
             </div>
         </div>

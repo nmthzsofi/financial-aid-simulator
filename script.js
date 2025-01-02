@@ -1,6 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
     const emailField = document.getElementById('email');
-    const emailRadio = document.getElementById('email-radio');
     const emailError = document.getElementById('email-error');
     const calculateButton = document.getElementById('calculate-button');
     const loadingScreen = document.getElementById('loading-screen');
@@ -10,21 +9,67 @@ document.addEventListener('DOMContentLoaded', function() {
     const programRadio = document.getElementById('program');
     const diplomaDropdown = document.getElementById('diploma');
     const gradeDropdown = document.getElementById('grade');
+
+
+    //income DOM elements
     const netIncome = document.getElementById('income');
+    const netIncomeLabel = document.getElementById('income-radio-label');
+    const incomeRadio = document.getElementById('income-radio');
+
+    //Setting up initially enter jump option
+    const handleEnterKeyS = (event) => {
+        if (event.key === 'Enter') {
+            primaryStartBtn.click();
+        }
+    };
+
+    const primaryStartBtn = document.getElementById('primary-start-btn');
+    document.addEventListener('keydown', handleEnterKeyS);
+
 
     const portalId = '27159977';
     const formGuid = '0c5ec7cb-9333-4519-8370-61f29eff2bc1';
 
     const hubspotEndpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`;
 
+    //Global card index for popstate()
+    let currentCardIndex = 0;
+    let defaultCardIndex = 0;
+    history.replaceState({ cardIndex: defaultCardIndex }, `Card ${defaultCardIndex}`, `?card=${defaultCardIndex}`);
+
+
+
+
+
+//UTILITY ARROW FUNCTIONS
+//--- Page 5: input field should not be empty ------
+
+
+//Efficiency for page transition --> letting go of enter key
+    const handleEnterKeyR = (event) => {
+        if (event.key === 'Enter') {
+            incomeRadio.click();
+        }
+    };
 
 //Page transition
 function showPage(pageId) {
+
+    if (pageId == 5) {
+        document.addEventListener('keydown', handleEnterKeyR);
+    } else {
+        document.removeEventListener('keydown', handleEnterKeyR);
+    }
+    if (pageId == 0){
+        document.addEventListener('keydown', handleEnterKeyS);
+    }else {
+        document.removeEventListener('keydown', handleEnterKeyS);
+    }
+    
     const pages = document.querySelectorAll('.page');
     pages.forEach(page => page.classList.remove('active')); // Hide all pages
     document.getElementById(`question-${pageId}`).classList.add('active'); // Show the selected page
 }
-
 
 //OPTION LOADERS -----------------------------------------------------------------------------------------------------------------------
     //WORKING: Creating the dropdown list of countries
@@ -48,7 +93,6 @@ function showPage(pageId) {
     //WORKING: Creating the dropdown list of possible high school diploma types 
     async function diploma_type_loader(){
         try {
-            //console.log('Fetching Grade Potential CSV...');
             const response = await fetch('grade_potential.csv'); // Path to your program prices CSV
             if (!response.ok) {
                 console.error('Error fetching file:', response.statusText);
@@ -59,9 +103,7 @@ function showPage(pageId) {
             const rows = csvText.split('\n').map(row => row.split(',')); // Parse CSV into rows
             const headers = rows[0]; // First row as headers
             const dataRows = rows.slice(1); // Remaining rows for data
-    
-            //console.log('Grade Potential Data:', dataRows);
-    
+        
             
             // Create an array out of the first items in each line to get the possible diploma types 
             const diplomas_array = [];
@@ -71,7 +113,6 @@ function showPage(pageId) {
 
             });
 
-            //console.log('Possible high school types: ', diplomas_array);
 
             //Populate the diploma types dropdown
             diplomas_array.forEach(element => {
@@ -99,8 +140,8 @@ function showPage(pageId) {
     
     //WORKING: Creating the dropdown list of possible high school diploma grades based on the selected program
     async function diploma_grade_options_loader(diplomaDropdownValue) {
+
         try {
-            console.log('Fetching Grade Potential CSV...');
             const response = await fetch('grade_potential.csv'); // Check if this path works
             if (!response.ok) {
                 console.error('Error fetching grade potential file:', response.statusText);
@@ -108,19 +149,15 @@ function showPage(pageId) {
             }
             const csvText = await response.text();
             const rows = csvText.split('\n').map(row => row.split(','));
-            console.log('Grade Potential CSV Content:', rows);
-    
             const headers = rows[0];
             const dataRows = rows.slice(1);
-    
+
             const matchingRow = dataRows.find(row => row[0].trim() === diplomaDropdownValue);
             if (matchingRow) {
                 const rowData = {};
                 headers.forEach((header, index) => {
                     rowData[header.trim()] = matchingRow[index]?.trim();
-                });
-                console.log('Matching Row Data:', rowData);
-    
+                });    
                 if (rowData && typeof rowData === 'object') {
                     const gradeDropdown = document.getElementById('grade');
                     if (!gradeDropdown) {
@@ -195,16 +232,13 @@ function showPage(pageId) {
     // WORKING: Function to fetch the country data csv - EU or not + Country factor
     async function fetchCountryData(selectedCountry) {
         try {
-            console.log('Fetching CSV...');
             const response = await fetch('country_data.csv'); // Check if this path works
             if (!response.ok) {
                 console.error('Error fetching file:', response.statusText);
                 return null;
             }
             const csvText = await response.text();
-            const rows = csvText.split('\n').map(row => row.split(','));
-            console.log('CSV Content:', rows);
-    
+            const rows = csvText.split('\n').map(row => row.split(','));    
             const headers = rows[0];
             const dataRows = rows.slice(1);
     
@@ -214,7 +248,6 @@ function showPage(pageId) {
                 headers.forEach((header, index) => {
                     rowData[header.trim()] = matchingRow[index].trim();
                 });
-                //console.log('Matching Row Data:', rowData);
                 return rowData;
             } else {
                 console.error('No matching country found for:', selectedCountry);
@@ -227,7 +260,6 @@ function showPage(pageId) {
     // WORKING: Function to fetch the programme prices csv
     async function fetchProgramCost(selectedProgram, countryType) {
         try {
-            console.log('Fetching Program Pricing CSV...');
             const response = await fetch('program_prices.csv'); // Path to your program prices CSV
             if (!response.ok) {
                 console.error('Error fetching file:', response.statusText);
@@ -238,9 +270,7 @@ function showPage(pageId) {
             const rows = csvText.split('\n').map(row => row.split(',').map(cell => cell.trim())); // Parse CSV into rows and trim spaces
             const headers = rows[0]; // First row as headers
             const dataRows = rows.slice(1); // Remaining rows for data
-    
-            console.log('Program Pricing Data:', dataRows);
-    
+        
             // Find the row that matches the selected program
             const matchingRow = dataRows.find(row => row[0] === selectedProgram);
             if (!matchingRow) {
@@ -256,7 +286,6 @@ function showPage(pageId) {
             }
     
             const cost = matchingRow[costIndex];
-            console.log(`Cost for ${selectedProgram} in ${countryType}: ${cost}`);
             return cost;
         } catch (error) {
             console.error('Error fetching or processing Program Pricing CSV:', error);
@@ -266,7 +295,6 @@ function showPage(pageId) {
     // WORKING: Function to fetch the academic factors csv
     async function fetchAcademicFactor(selectedGrade) {
         try {
-            console.log('Fetching CSV...');
             const response = await fetch('academic_factor.csv'); // Check if this path works
             if (!response.ok) {
                 console.error('Error fetching file:', response.statusText);
@@ -274,13 +302,9 @@ function showPage(pageId) {
             }
             const csvText = await response.text();
             const rows = csvText.split('\n').map(row => row.split(','));
-            console.log('CSV Content:', rows);
     
             const headers = rows[0];
             const dataRows = rows.slice(1);
-
-            console.log(dataRows);
-
             const gradeIndex = headers.indexOf(selectedGrade);
             if (gradeIndex === -1) {
                 console.error('Invalid grade:', selectedGrade);
@@ -288,7 +312,6 @@ function showPage(pageId) {
             }
     
             const factor = dataRows[0][gradeIndex];
-            console.log(`The selected grade is ${selectedGrade} and its index is ${gradeIndex} and its multiplier is ${factor}`);
             return factor;
     
             
@@ -308,7 +331,6 @@ function showPage(pageId) {
 
         //TO-DO: Remove last two digits and make them 0s    
         let maxAid = academicFactor*programCost*((100000-netIncomeReference)/100000*1.05/100)*100;
-        console.log(maxAid);
 
         if (academicFactor == 1.3){
             maxAid += 2000;
@@ -317,7 +339,6 @@ function showPage(pageId) {
             maxAid += 1000;
         }
 
-        console.log(maxAid);
         return maxAid;
 
         
@@ -327,19 +348,14 @@ function showPage(pageId) {
     function loanSoftener(netIncome, programCost){
         let maxAid = 0;
 
-        console.log(netIncome.value);
-
         if (30000 < netIncome.value && netIncome.value < 70000) {
             maxAid = programCost * 0.75;
-            console.log("We are in the *0.75 option");
         }
         else if (70000 < netIncome.value && netIncome.value < 85000) {
             maxAid = programCost * 0.6;
-            console.log("We are in the *0.6 option");
         }
         else if (85000 < netIncome.value && netIncome.value < 100000) {
             maxAid = programCost * 0.3;
-            console.log("We are in the *0.3 option");
         }
         else {
             return 0;
@@ -351,6 +367,21 @@ function showPage(pageId) {
     }
 
 //EVENT LISTENERS ------------------------------------------------------------------------------------------------------------------------
+    //Helper for validating income input
+    const isBtnUsable = () =>{
+        if (netIncome.value){
+            netIncomeLabel.style.pointerEvents = '';
+            netIncomeLabel.style.opacity = '1';
+            incomeRadio.disabled = false;
+        } else {
+            netIncomeLabel.style.pointerEvents = 'none';
+            netIncomeLabel.style.opacity = '0.2';
+            incomeRadio.disabled = true;
+        }
+    }
+    
+    //PAGE 5: Validating input
+    netIncome.addEventListener(('input'), isBtnUsable);
 
     //WORKING: Calculate everything when the calculate button is clicked
     calculateButton.addEventListener('click', async function () {
@@ -373,7 +404,7 @@ function showPage(pageId) {
             return;
         }
         
-        document.getElementById('question-5').classList.remove('active');
+        document.getElementById('question-6').classList.remove('active');
         loadingScreen.classList.add('active');
     
         const countryData = await fetchCountryData(selectedCountry);
@@ -381,11 +412,6 @@ function showPage(pageId) {
         const countryFactor = countryData['Country factor'];
         const programCost = await fetchProgramCost(selectedProgram, countryType);
         const academicFactor = await fetchAcademicFactor (selectedGrade);
-
-        console.log('The selected country type: ', countryType);
-        console.log('The selected country factor: ', countryFactor);
-        console.log('The selected program cost: ', programCost);
-        console.log('The academic factor: ', academicFactor);
 
         let maxAid;
 
@@ -445,7 +471,6 @@ function showPage(pageId) {
         })
         .then(response => response.json())
         .then(data => {
-            console.log('HubSpot submission successful:', data);
         })
         .catch(error => {
             console.error('Error submitting data to HubSpot:', error);
@@ -459,7 +484,7 @@ function showPage(pageId) {
                 if(minAid < 0 || maxAid < 0){
                     resultText.textContent = `You are not eligible for financial aid.`
                 } else{ 
-                    resultText.textContent = `The expected financial aid you can receive: €${Math.trunc (minAid/100)*100} - €${Math.trunc (maxAid/100)*100}`;
+                    resultText.innerHTML = `Based on the information provided, it seems that you may be eligible to receive financial aid ranging between <b>€${Math.trunc (minAid/100)*100} and €${Math.trunc (maxAid/100)*100}</b>.  Please note that this is an estimate only, and we will need to review your full documentation to determine the exact amount of aid you are eligible for.`;
                 } 
 
                 
@@ -471,7 +496,7 @@ function showPage(pageId) {
 
     //WORKING: changing between different pages when the answer is selected
     document.addEventListener('change', function (event) {
-        
+
         if (event.target && event.target.type === 'radio') {
             const currentQuestionId = event.target.dataset.current; // Current question ID
             const nextQuestionId = event.target.dataset.next; // Next question ID
@@ -490,23 +515,22 @@ function showPage(pageId) {
             }
 
             showPage(nextQuestionId);
+            currentCardIndex = nextQuestionId;
+            history.pushState({ cardIndex: currentCardIndex }, `Card ${currentCardIndex}`, `?card=${currentCardIndex}`);
 
             if (currentQuestion) {
-                console.log(`Hiding Current Question: ${currentQuestionId}`);
                 currentQuestion.classList.remove('active');
             }
 
             if (nextQuestion) {
-                console.log(`Showing Next Question: ${nextQuestionId}`);
                 nextQuestion.classList.add('active');
-                console.log('Next Question Class List:', nextQuestion.classList);
             } else {
                 console.error(`Next Question not found: ${nextQuestionId}`);
             }
         }
     });
 
-    countryDropdown.addEventListener('change', function () {
+    countryDropdown.addEventListener('change', function (){
         const currentQuestionId = countryDropdown.closest('.page').id.split('-')[1]; // Az aktuális kérdés ID-je
         const nextQuestionId = parseInt(currentQuestionId) + 1; // Következő kérdés ID-je
 
@@ -518,18 +542,17 @@ function showPage(pageId) {
                 currentQuestion.classList.remove('active'); // Aktuális kérdés elrejtése
             }
             if (nextQuestion) {
+                currentCardIndex = nextQuestionId;
+                history.pushState({ cardIndex: currentCardIndex }, `Card ${currentCardIndex}`, `?card=${currentCardIndex}`);
                 nextQuestion.classList.add('active'); // Következő kérdés megjelenítése
             }
         }
     });
 
     diplomaDropdown.addEventListener('change', function () {
+        
         const currentQuestionId = diplomaDropdown.closest('.page').id.split('-')[1]; // Current question ID
         const nextQuestionId = parseInt(currentQuestionId) + 1; // Next question ID
-    
-        console.log('Current Question ID:', currentQuestionId);
-        console.log('Next Question ID:', nextQuestionId);
-    
         const currentQuestion = document.getElementById(`question-${currentQuestionId}`);
         const nextQuestion = document.getElementById(`question-${nextQuestionId}`);
     
@@ -538,6 +561,8 @@ function showPage(pageId) {
                 currentQuestion.classList.remove('active'); // Hide current question
             }
             if (nextQuestion) {
+                currentCardIndex = nextQuestionId;
+                history.pushState({ cardIndex: currentCardIndex }, `Card ${currentCardIndex}`, `?card=${currentCardIndex}`);
                 nextQuestion.classList.add('active'); // Show next question
             } else {
                 console.error('Next Question not found:', nextQuestionId);
@@ -547,5 +572,35 @@ function showPage(pageId) {
         diploma_grade_options_loader(diplomaDropdown.value); // Populate grades
     });
 
+//WINDOW LISTENER --------------------------------------------------------------------------------------------------------------------------
+//Handling going back with questions
+
+window.addEventListener('popstate', (event) => {
+    if (event.state && event.state.cardIndex !== undefined && event.state.cardIndex !== 0 ) {
+        currentCardIndex = (event.state.cardIndex);
+        // Loop through the NodeList and uncheck each radio button
+        document.querySelectorAll('input').forEach(radio => {
+            radio.checked = false;
+        });
+
+        currentCardIndex = event.state.cardIndex;
+        showPage(currentCardIndex);
+
+    } else if (event.state.cardIndex == 0) {
+        history.pushState(null, "", "?card=0");
+        history.replaceState({ cardIndex: defaultCardIndex }, `Card ${defaultCardIndex}`, `?card=${defaultCardIndex}`);
+
+        document.querySelectorAll('input').forEach(radio => {
+            radio.checked = false;
+        });
+
+        showPage(defaultCardIndex);
+    } else {
+        console.error('Invalid history state detected:', event.state);
+    }
+});
+
+//CLEANING UP AND LOADING UP
+isBtnUsable();
 
 });

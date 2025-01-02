@@ -1,4 +1,5 @@
 /* General Styles */
+
 body {
     background-color: #fdf4ee;
     font-family:'Open Sans', 'Arial', sans-serif;
@@ -67,7 +68,21 @@ h1 {
     overflow: hidden;
     color:#eb5f33;
 }
+.last{
 
+    background-color: white ;
+    width: 60vw;
+    padding: 15vh 40px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 1.5rem!important;
+    
+}
+.last-page{
+    background-color:transparent!important;
+    border-radius: none!important;
+    box-shadow: none!important;
+}
 /* Page Container */
 .page-container {
     position: relative;
@@ -76,6 +91,8 @@ h1 {
     color:#454545;
     /* This container now defines the space for all pages */
 }
+
+
 
 /* Page styling */
 .page {
@@ -128,16 +145,25 @@ h1 {
     margin: 0;
 }
 
-#header-main{
-    margin-bottom:20px;
-    margin-top:none;
-}
 /* Header Text */
 .header {
     font-size: 2rem;
     color: rgb(64, 63, 63);
     margin-bottom: 40px;
     margin:0;
+}
+.grades-div, .income-div{
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    justify-content: center;
+}
+.grades-div{
+    align-items: left;
+}
+.income-div{
+    align-items:center;
+
 }
 
 .span{
@@ -158,6 +184,10 @@ h1 {
     gap: 15px; /* Space between input elements */
     width: 60vw;
     margin: 0; /* Remove extra margins */
+}
+
+#grade{
+    font-weight: bold;
 }
 
 #program {
@@ -208,6 +238,7 @@ input[type="radio"] {
     margin:0;
 }
 
+/*
 #calculate-button {
     display: flex;
     justify-content: center;
@@ -219,6 +250,7 @@ input[type="radio"] {
     color:#eb5f33;
     border:none;
 }
+*/    
 
 /* Spinner Styles */
 #spinner-div {
@@ -286,8 +318,63 @@ select {
     padding-right: 4rem;
     stroke: #eb5f33;
 }
+form.lead-capture {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns of equal width */
+    gap: 20px; /* Space between form elements */
+    width: 60vw; /* Limit the width of the form */
+    margin: 0 auto; /* Center the form */
+    padding: 20px;
+    background-color: transparent; /* Light background color */
+}
 
-#income, #email {
+form.lead-capture label {
+    grid-column: span 1; /* Labels span one column */
+    font-size: 14px;
+    font-weight: bold;
+    color: #333; /* Dark text color */
+}
+
+form.lead-capture input,
+form.lead-capture select {
+    grid-column: span 1; /* Inputs span one column */
+    padding: 10px;
+    font-size: 14px;
+    margin-top: 2vh;
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    box-sizing: border-box;
+    width: 100%; /* Make inputs take full width */
+}
+
+form.lead-capture select {
+    background-color: #fff; /* White background for select */
+}
+
+form.lead-capture input[type="number"] {
+    appearance: none; /* Remove default spinner on number inputs */
+}
+
+
+form.lead-capture select option {
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    form.lead-capture {
+        grid-template-columns: 1fr; /* Switch to one column on smaller screens */
+    }
+
+    form.lead-capture button {
+        grid-column: span 1; /* Button spans one column */
+    }
+}
+.header-form{
+    color:#eb5f33;
+}
+
+
+#income {
     display:block;
     background-color:#fdf4ee;
     width: 25vw;
