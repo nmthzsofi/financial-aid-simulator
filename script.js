@@ -1,38 +1,58 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const emailField = document.getElementById('email');
-    const emailError = document.getElementById('email-error');
-    const calculateButton = document.getElementById('calculate-button');
+
+
+    // ---------------------------------- 
     const loadingScreen = document.getElementById('loading-screen');
     const resultScreen = document.getElementById('result-screen');
     const resultText = document.getElementById('result');
+
+    // ---------------------------------- 
     const countryDropdown = document.getElementById('country'); 
     const programRadio = document.getElementById('program');
     const diplomaDropdown = document.getElementById('diploma');
     const gradeDropdown = document.getElementById('grade');
 
 
-    //income DOM elements
+    //---------------------------------- income DOM elements
     const netIncome = document.getElementById('income');
     const netIncomeLabel = document.getElementById('income-radio-label');
     const incomeRadio = document.getElementById('income-radio');
 
+    //---------------------------------- Lead form DOM elements
+    const leadEmail = document.getElementById('lead-email');
+    const leadFirstName = document.getElementById('lead-first-name');
+    const leadLastName = document.getElementById('lead-last-name');
+    const leadPhoneNumber = document.getElementById('lead-phone');
+    const leadCountry = document.getElementById('lead-country');
+    const leadProgram = document.getElementById('lead-program');
+    const leadStartYear = document.getElementById('lead-start-year');
+    const leadPrivacyPolicy = document.getElementById('lead-privacy');
+    const leadPrivacyLabel = document.getElementById('lead-privacy-label')
+
+    const emailError = document.getElementById('email-error');
+
+
+    //---------------------------------- Buttons
     //Setting up initially enter jump option
     const handleEnterKeyS = (event) => {
         if (event.key === 'Enter') {
             primaryStartBtn.click();
         }
     };
-
-    const primaryStartBtn = document.getElementById('primary-start-btn');
     document.addEventListener('keydown', handleEnterKeyS);
+    const primaryStartBtn = document.getElementById('primary-start-btn');
 
+    const calculateButton = document.getElementById('calculate-button');
+    const calculateBtnLabel = document.getElementById('calculate-label');
+    
 
+    // ----------------------------------
     const portalId = '27159977';
     const formGuid = '0c5ec7cb-9333-4519-8370-61f29eff2bc1';
 
     const hubspotEndpoint = `https://api.hsforms.com/submissions/v3/integration/submit/${portalId}/${formGuid}`;
 
-    //Global card index for popstate()
+    // ---------------------------------- Global card index for popstate()
     let currentCardIndex = 0;
     let defaultCardIndex = 0;
     history.replaceState({ cardIndex: defaultCardIndex }, `Card ${defaultCardIndex}`, `?card=${defaultCardIndex}`);
@@ -42,7 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 //UTILITY ARROW FUNCTIONS
-//--- Page 5: input field should not be empty ------
 
 
 //Efficiency for page transition --> letting go of enter key
@@ -76,8 +95,6 @@ function showPage(pageId) {
    function countries_loader() {
         let countries_array = ["Albania", "Algeria", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bangladesh", "Barbados", "Belarus", "Belgium", "Benin", "Bermuda", "Bhutan", "Bolivia", "Brazil", "Brunei", "Bulgaria", "Cambodia", "Cameroon", "Canada", "Cayman Islands", "Chile", "China", "Colombia", "Costa Rica", "Croatia", "Cyprus", "Czech Republic", "Denmark", "East Timor", "Ecuador", "Egypt", "El Salvador", "Estonia", "Eswatini", "Ethiopia", "Finland", "France", "Georgia", "Germany", "Ghana", "Greece", "Guatemala", "Haiti", "Honduras", "Hong Kong", "Hungary", "Iceland", "India", "Indonesia", "Iraq", "Ireland", "Israel", "Italy", "Japan", "Kazakhstan", "Kenya", "Kyrgyzstan", "Laos", "Lebanon", "Lesotho", "Libya", "Lithuania", "Luxembourg", "Macao", "Malaysia", "Malta", "Mauritania", "Mexico", "Mongolia", "Montenegro", "Morocco", "Myanmar", "Nepal", "Netherlands", "New Caledonia", "New Zealand", "Nigeria", "Norway", "Pakistan", "Palau", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russia", "Saudi Arabia", "Serbia", "Singapore", "Slovakia", "Slovenia", "South Africa", "South Korea", "Spain", "Sri Lanka", "Suriname", "Sweden", "Switzerland", "Tajikistan", "Tanzania", "Thailand", "Tunisia", "Turkey", "Turks and Caicos Islands", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uzbekistan", "Vanuatu", "Vietnam", "Virgin Islands", "Zambia", "Zimbabwe"];
 
-        const countryDropdown = document.getElementById("country");
-
             countries_array.forEach(element => {
                 // Create an <option> element
                 const countryItem = document.createElement("option");
@@ -86,6 +103,12 @@ function showPage(pageId) {
 
                 // Append the option to the dropdown
                 countryDropdown.appendChild(countryItem);
+
+                const countryItem2 = document.createElement("option");
+                countryItem2.value = element; // Set the value attribute
+                countryItem2.textContent = element; // Set the visible text
+
+                leadCountry.appendChild(countryItem2);
             });
     }
     countries_loader();
@@ -159,7 +182,6 @@ function showPage(pageId) {
                     rowData[header.trim()] = matchingRow[index]?.trim();
                 });    
                 if (rowData && typeof rowData === 'object') {
-                    const gradeDropdown = document.getElementById('grade');
                     if (!gradeDropdown) {
                         console.error('The gradeDropdown div is missing!');
                         return;
@@ -367,6 +389,7 @@ function showPage(pageId) {
     }
 
 //EVENT LISTENERS ------------------------------------------------------------------------------------------------------------------------
+
     //Helper for validating income input
     const isBtnUsable = () =>{
         if (netIncome.value){
@@ -379,14 +402,46 @@ function showPage(pageId) {
             incomeRadio.disabled = true;
         }
     }
-    
-    //PAGE 5: Validating input
-    netIncome.addEventListener(('input'), isBtnUsable);
 
+    const isCalcUsable = () => {
+        if (leadPrivacyPolicy.checked) {
+            calculateBtnLabel.style.pointerEvents = '';
+            calculateBtnLabel.style.opacity = '1';
+            calculateButton.disabled = false; // Enable the radio button
+        } else {
+            calculateBtnLabel.style.pointerEvents = 'none';
+            calculateBtnLabel.style.opacity = '0.2';
+            calculateButton.disabled = true; // Disable the radio button
+        }
+    };
+
+    const isValidEmail = () => {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+        if (emailRegex.test(leadEmail.value)) {
+            leadEmail.style.border = 'none';
+        } else {
+            leadEmail.style.border = '2px solid red';
+            
+        }
+    }
+    
+    //-------------------------------------- Validating input
+    netIncome.addEventListener(('input'), isBtnUsable);
+    leadPrivacyPolicy.addEventListener(('change'), isCalcUsable);
+    leadEmail.addEventListener('blur', isValidEmail); // Validate as the user types
+
+
+
+
+
+    //Is al required filled out
     //WORKING: Calculate everything when the calculate button is clicked
     calculateButton.addEventListener('click', async function () {
+
+        let valid = true; 
         const selectedCountry = countryDropdown.value;
-        const selectedProgram = programRadio.querySelector('input[name="question-1"]:checked').value;
+        const selectedProgram = document.querySelector('input[name="question-1"]:checked').value;
         const selectedGrade = document.querySelector('input[name="grades"]:checked').value;
     
         if (!selectedCountry || selectedCountry === "Select your country") {
@@ -403,6 +458,42 @@ function showPage(pageId) {
             alert('Please select a valid grade.');
             return;
         }
+
+        if (!leadEmail.value || leadEmail.value === "") {
+            //alert('Please enter a valid email.');
+            leadEmail.style.border = "1px solid red";
+
+            valid = false;
+        }
+        if (!leadFirstName.value || leadFirstName.value === "") {
+            //alert('Please enter a valid email.');
+            leadFirstName.style.border = "1px solid red";
+            valid = false;
+        }
+        if (!leadLastName.value || leadLastName.value === "") {
+            //alert('Please enter a valid email.');
+            leadLastName.style.border = "1px solid red";
+            valid = false;
+        }
+        if (leadCountry.value === "") {
+            //alert('Please enter a valid email.');
+            leadCountry.style.borderColor = "red";
+            valid = false;
+        }
+        if (!leadProgram.value || leadProgram.value === "") {
+            //alert('Please enter a valid email.');
+            leadProgram.style.borderColor = "red";
+            valid = false;
+        }
+        if (!leadStartYear.value || leadStartYear.value === "") {
+            //alert('Please enter a valid email.');
+            leadStartYear.style.borderColor = "red";
+            valid = false;
+        }
+        if(!valid){
+            return;
+        }
+        
         
         document.getElementById('question-6').classList.remove('active');
         loadingScreen.classList.add('active');
@@ -449,18 +540,27 @@ function showPage(pageId) {
         // Prepare HubSpot payload
         const hubspotData = {
             fields: [
-            { name: 'email', value: emailField.value },
-            { name: 'forward_programmes', value: selectedProgram },
-            { name: 'highschool_diploma_country', value: selectedCountry },
-            { name: 'high_school_diploma_name', value:  diplomaDropdown.value},
-            { name: 'average_grade_over_last_two_school', value: selectedGrade },
+            { name: 'email', value: leadEmail.value },
+            { name: 'firstname', value: leadFirstName.value },
+            { name: 'lastname', value: leadLastName.value },
+            { name: 'country_of_residence___financial_aid_calculator', value: leadCountry.value },
+            { name: 'phone_number___financial_aid_calculator', value: leadPhoneNumber.value },
+            { name: 'start_year___financial_aid_calculator', value: leadStartYear.value },
+            { name: 'program_of_interest___financial_aid_calculator', value: leadProgram.value },
+
+            { name: 'forward_program_of_interest___financial_aid_calculator', value: selectedProgram },
+            { name: 'high_school_diploma_country___financial_aid_calculator', value: selectedCountry },
+            { name: 'high_school_diploma_name___financial_aid_calculator', value:  diplomaDropdown.value},
+            { name: 'average_grade___financial_aid_calculator', value: selectedGrade },
             { name: 'family_income', value: netIncome.value },
             { name: 'minimum_aid', value: minAid},
             { name: 'maximum_aid', value: maxAid}
 
             ]
         };
+        console.log(hubspotData);
     
+        
         // Send data to HubSpot
         fetch(hubspotEndpoint, {
             method: 'POST',
@@ -475,6 +575,7 @@ function showPage(pageId) {
         .catch(error => {
             console.error('Error submitting data to HubSpot:', error);
         });
+           
 
         setTimeout(function () {
             loadingScreen.classList.remove('active');
@@ -497,7 +598,7 @@ function showPage(pageId) {
     //WORKING: changing between different pages when the answer is selected
     document.addEventListener('change', function (event) {
 
-        if (event.target && event.target.type === 'radio') {
+        if (event.target && event.target.type === 'radio' && event.target.id !== 'calculate-button') {
             const currentQuestionId = event.target.dataset.current; // Current question ID
             const nextQuestionId = event.target.dataset.next; // Next question ID
 
@@ -507,7 +608,7 @@ function showPage(pageId) {
             if (currentQuestionId == 6 ){
                 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                if (!emailField.value || !emailRegex.test(emailField.value) || emailError.textContent) {
+                if (!leadEmail.value || !emailRegex.test(leadEmail.value) || emailError.textContent) {
                     alert('Please provide a valid email address.');
                     event.target.checked = false;
                     return;
@@ -602,5 +703,6 @@ window.addEventListener('popstate', (event) => {
 
 //CLEANING UP AND LOADING UP
 isBtnUsable();
+isCalcUsable();
 
 });

@@ -101,43 +101,6 @@
                 
             </div>
 
-            <div id="question-6" class="page last-page">
-                <p class="header last">Thank you for completing the Financial Aid Calculator.</p>
-                <p class="header header-form">Fill in this form to discover your result!</p>
-                <form class="lead-capture">
-                    <label for="first-name">First Name *<input id="first-name" type="text" required></label>
-                    <label for="last-name">Last Name *<input id="last-name" type="text" required></label>                    
-                    <label for="email">Email *<input id="email" type="email" required></label> 
-                    <label for="phone">Phone Number<input id="phone" type="number"></label>   
-                    <label for="start-year">When are you considering to attend university *
-                    <select id="start-year">
-                        <option value="" disabled selected>Select an option</option>
-                        <option>2025</option>
-                        <option>2026</option>
-                        <option>2027 or later</option>
-                    </select></label>
-                    <label for="fwd-program">What programme are you interested in? *
-                    <select id="fwd-program">
-                        <option value="" disabled selected>Select an option</option>
-                        <option>Business & Management</option>
-                        <option>Economics</option>
-                        <option>Economics & Politics</option>
-                        <option>Economics & Management</option>
-                        <option>Politics & International Relations</option>
-                        <option>Data Science & Business Analytics</option>
-                        <option>Psychology</option>
-                        <option>Open Bachelor's</option>
-                        <option>A combination of subjects</option>
-                        <option>I don't know yet</option>
-                    </select></label>
-                </form>    
-                
-                <small id="email-error" class="text-danger"></small>
-                <label class="control-button">
-                    <input id="calculate-button" class="option-button" type="radio" value="calculate">Calculate
-                </label>
-             </div>    
-
             
 
             <!-- Loading Spinner -->
@@ -154,6 +117,96 @@
                 <p id="result" class="fs-5"></p>
             </div>
         </div>
+
+        <div id="question-6" class="page last-page">
+            <p class="last">Thank you for answering all the questions.</p>
+            <p class="header header-form">Fill in this form to discover your result!</p>
+            <form class="lead-capture">
+                <div class="row">
+                    <div class="column">
+                        <label for="first-name">First name *</label>
+                        <input type="text" id="lead-first-name" name="first-name" required>
+                    </div>
+                    <div class="column">
+                        <label for="last-name">Last name *</label>
+                        <input type="text" id="lead-last-name" name="last-name" required>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="column">
+                        <label for="email">Email *</label>
+                        <input type="email" id="lead-email" name="email" required>
+                        <div class="description">We’ll send you an email with the next steps.</div>
+                    </div>
+                    <div class="column">
+                        <label for="phone">Phone number</label>
+                        <div class="phone-input">
+                            <!--
+                            <select>
+                                <option value="+36">🇭🇺 +36</option>
+                            
+                            </select>
+                             -->
+                            <input type="number" id="lead-phone" name="phone">
+                        </div>
+                        <div class="description">You don’t have to provide your phone number, but if you decide to apply and would like to receive text updates, please feel free to share it.</div>
+                    </div>
+                </div>
+        
+                <div class="row">
+                    <div class="column">
+                        <label for="country">Country of residence *</label>
+                        <select id="lead-country" name="country" required>
+                            <option value="">Select an option</option>
+
+                        </select>
+                    </div>
+                    <div class="column">
+                        <label for="start-year">When are you considering to attend university? *</label>
+                        <select id="lead-start-year" name="start-year" required>
+                            <option value="">Select an option</option>
+                            <option>2025</option>
+                            <option>2026</option>
+                            <option>2027 or later</option>
+
+                        </select>
+                    </div>
+                </div>
+        
+                <div class="row full-width">
+                    <label for="program">What programme are you interested in? *</label>
+                    <select id="lead-program" name="program" required>
+                        <option value="">Select an option</option>
+                        <option>Business & Management</option>
+                        <option>Economics</option>
+                        <option>Economics & Politics</option>
+                        <option>Economics & Management</option>
+                        <option>Politics & International Relations</option>
+                        <option>Data Science & Business Analytics</option>
+                        <option>Psychology</option>
+                        <option>Open Bachelor's</option>
+                        <option>A combination of subjects</option>
+                        <option>I don't know yet</option>
+
+                    </select>
+                </div>
+        
+                <div class="row full-width checkbox-container">
+                    <label id="lead-privacy-label"><input type="checkbox" id="lead-privacy" name="privacy" required>I accept the privacy policy.</label>
+                    <label for="privacy">
+                        Please check this box if you consent to Forward College processing your data and sending personalised information. You can withdraw consent anytime through our unsubscribe process. Read our privacy policy <a href="https://forward-college.eu/privacy-policy/">here</a>.
+                    </label>
+                </div>
+                <label id="calculate-label" class="control-button">
+                    <input id="calculate-button" class="option-button" type="radio" type="submit" value="calculate">Calculate</label>
+            </form>  
+        
+            
+        
+            
+         </div>   
+
     </main>
     <script src="script.js"></script>
 </body> 
