@@ -345,7 +345,9 @@ function showPage(pageId) {
 //BACKGROUND CALCULATION ------------------------------------------------------------------------------------------------------------------   
     function financialAidCalculator (academicFactor, programCost,countryFactor ) {
 
-        const netIncomeReference = netIncome.value/ (countryFactor / 100);
+        console.log("Net income loaded from the financialAidCalculator function" + netIncome);
+        const netIncomeReference = netIncome.value * (100/countryFactor);
+        console.log("Net income reference loaded from the financialAidCalculator function" + netIncomeReference);
 
         if(netIncomeReference < 30000 || netIncomeReference > 100000){
             return 0;
@@ -354,16 +356,18 @@ function showPage(pageId) {
         //TO-DO: Remove last two digits and make them 0s    
         let maxAid = academicFactor*programCost*((100000-netIncomeReference)/100000*1.05/100)*100;
 
+        //Removed based on Eric's feedback
+        /*
+
         if (academicFactor == 1.3){
             maxAid += 2000;
         } 
         if (academicFactor == 1.1){
             maxAid += 1000;
         }
+        */    
 
-        return maxAid;
-
-        
+        return maxAid;   
 
     }
 
@@ -490,9 +494,11 @@ function showPage(pageId) {
             leadStartYear.style.borderColor = "red";
             valid = false;
         }
+        /*
         if(!valid){
             return;
         }
+        */    
         
         
         document.getElementById('question-6').classList.remove('active');
@@ -504,36 +510,63 @@ function showPage(pageId) {
         const programCost = await fetchProgramCost(selectedProgram, countryType);
         const academicFactor = await fetchAcademicFactor (selectedGrade);
 
+        console.log("Selected Country:" + selectedCountry);
+        console.log("Selected Program:" + selectedProgram);
+        console.log("Selected Grade:" + selectedGrade);
+        console.log("Net Income:" + netIncome);
+        console.log("Country Data:" + countryData);
+        console.log("Country Type: " + countryType);
+        console.log("Country Factor" + countryFactor);
+        console.log("Program Cost" + programCost);
+        console.log("Academic Factor" + academicFactor);
+
+
         let maxAid;
 
         switch (countryDropdown.value){
             case "France": maxAid = loanSoftener(netIncome, programCost); break;
             case "Italy": maxAid = loanSoftener(netIncome, programCost); break;
             case "Sweden": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
-            case "Norway": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
+            /*case "Norway": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;*/
             case "Finland": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 10000; break;
             case "United Kingdom": maxAid = financialAidCalculator(academicFactor, programCost, countryFactor) + 5000; break;
             default: maxAid = financialAidCalculator(academicFactor, programCost, countryFactor); break;
 
         }
 
+        if (selectedGrade == "Lower"){
+            maxAid = 0;
+        }
+
+        console.log("Max aid:" + maxAid);
+
 
         if (maxAid > programCost){
             maxAid = programCost;
         }
+        console.log("Max aid after checking for program cost:" + maxAid);
+
 
         let minAid = maxAid;
 
+        console.log("Min aid (should be equal to max aid at this point):" + minAid);
 
-        if(0 < maxAid <= 10000){
+
+
+        if (maxAid == 0){
+            minAid = 0;
+        } else if (0 < maxAid && maxAid <= 10000){
             minAid -= 2000;
-        } else if (10000 < maxAid <= 15000){
+        } else if (10000 < maxAid && maxAid <= 15000){
             minAid -= 2500;
         } else if (15000 > maxAid) {
             minAid -= 3500;
         } else {
             minAid = 0;
         }
+
+        console.log("Min aid after subtracting the appropriate amount:" + minAid);
+
 
     
 
@@ -582,7 +615,7 @@ function showPage(pageId) {
             if (programCost) {
                 resultScreen.classList.add('active');
 
-                if(minAid < 0 || maxAid < 0){
+                if(minAid <= 0 || maxAid <= 0){
                     resultText.textContent = `You are not eligible for financial aid.`
                 } else{ 
                     resultText.innerHTML = `Based on the information provided, it seems that you may be eligible to receive financial aid ranging between <b>€${Math.trunc (minAid/100)*100} and €${Math.trunc (maxAid/100)*100}</b>.  Please note that this is an estimate only, and we will need to review your full documentation to determine the exact amount of aid you are eligible for.`;
