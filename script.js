@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const leadPrivacyLabel = document.getElementById('lead-privacy-label')
 
     const emailError = document.getElementById('email-error');
+    let gradeIndex;
 
 
     //---------------------------------- Buttons
@@ -327,7 +328,8 @@ function showPage(pageId) {
     
             const headers = rows[0];
             const dataRows = rows.slice(1);
-            const gradeIndex = headers.indexOf(selectedGrade);
+            gradeIndex = headers.indexOf(selectedGrade); // 0-high 
+            console.log("Grade Index: " + gradeIndex);
             if (gradeIndex === -1) {
                 console.error('Invalid grade:', selectedGrade);
                 return null;
@@ -510,6 +512,8 @@ function showPage(pageId) {
         const programCost = await fetchProgramCost(selectedProgram, countryType);
         const academicFactor = await fetchAcademicFactor (selectedGrade);
 
+        /*
+
         console.log("Selected Country:" + selectedCountry);
         console.log("Selected Program:" + selectedProgram);
         console.log("Selected Grade:" + selectedGrade);
@@ -519,6 +523,7 @@ function showPage(pageId) {
         console.log("Country Factor" + countryFactor);
         console.log("Program Cost" + programCost);
         console.log("Academic Factor" + academicFactor);
+        */
 
 
         let maxAid;
@@ -534,7 +539,8 @@ function showPage(pageId) {
 
         }
 
-        if (selectedGrade == "Lower"){
+        if (selectedGrade == "Lower" || (gradeIndex == 4 && selectedProgram != "open-bachelor")){
+            console.log("a max aid 0-ra lett állítva");
             maxAid = 0;
         }
 
