@@ -442,7 +442,7 @@ select {
 
 /* For Tablets and Smaller Screens */
 /* For Tablets and Smaller Screens */
-@media (max-width: 1025px) {
+@media (max-width: 910px) {
     .page {
         min-height: 70vh; 
         gap:10px;
@@ -537,7 +537,7 @@ select {
     
     .page {
         width: 90vw;
-        min-height: 65vh; /* Ensure enough space */
+        min-height: 80vh; /* Ensure enough space */
         padding: 15px; /* Maintain spacing */
        
     }
@@ -577,6 +577,45 @@ select {
     .lead-capture{
         width:80vw;
     }
+
+    .lead-capture .row {
+        display: flex;
+        flex-direction: column; /* Change layout to one column */
+        gap: 15px; /* Add spacing between items */
+      }
+    
+      .lead-capture .column {
+        min-width: 100%; /* Make each column take the full width */
+      }
+    
+      .lead-capture input,
+      .lead-capture select {
+        width: 100%; /* Ensure inputs and selects are responsive */
+      }
+
+      .lead-capture .checkbox-container {
+        display: flex;
+        align-items: left; /* Align items vertically */
+        
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .lead-capture .checkbox-container input[type="checkbox"] {
+        display: inline-block; /* Ensure the checkbox remains inline */
+        width: auto; /* Prevent the checkbox from stretching */
+      }
+
+      .checkbox-with-label{
+        width:100%;
+        display:flex;
+        flex-direction: row;
+        gap:10px;
+
+      }
+      
+      
 
     .last-page{
         width:100vw;
