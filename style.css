@@ -205,7 +205,6 @@ h1 {
     background-color:transparent!important;
     border-radius: none!important;
     box-shadow: none!important;
-    padding-top: 30vh!important;
     padding-bottom: 30vh;
 }
 /* Page Container */
@@ -459,8 +458,6 @@ select {
 
     .country-header{
         height: 38px;
-        
-
     }
 
     .options-div {
@@ -469,7 +466,7 @@ select {
     }
 
     #grade .option-label{
-        width: 30vw!important;
+        width: 30vw;
     }
 
     .option-label {
@@ -528,71 +525,68 @@ select {
         width:80vw;
     }
 
-    
 
-    
-
-
-}
-
-@media (max-width: 768px) {
-    form.lead-capture {
-        grid-template-columns: 1fr; /* Switch to one column on smaller screens */
-    }
-
-    form.lead-capture button {
-        grid-column: span 1; /* Button spans one column */
-    }
-}
-.header-form{
-    color:#eb5f33;
-    font-size: 1.6rem!important;
-}
-
-
-#income {
-    display:block;
-    background-color:#fdf4ee;
-    width: 25vw;
-    height: 5vh;
-    font-size: 1.3rem;
-    border:none;
-    padding: 0.5rem;
-    border: 1px solid rgba(128, 128, 128, 0.192);
 }
 
 /* For Mobile Devices */
 @media (max-width: 480px) {
+
+    #grade .option-label{
+        width: 35vw;
+    }
     
     .page {
         width: 90vw;
         min-height: 65vh; /* Ensure enough space */
         padding: 15px; /* Maintain spacing */
+       
     }
 
     .page-container {
-        width: 95%; /* Make it more responsive */
+        width: 100%; /* Make it more responsive */
         min-height: 70vh;
     }
 
-    .options-div {
-        width: 100%;
-        gap: 10px;
+    .country-header{
+        height: 58px;
     }
 
 
     .header {
-        font-size: 18rem;
+        font-size: 2.2rem;
         margin-bottom: 2vh;
-        color:black!important;
+        width:100%;
     }
 
+    .p-text{
+        letter-spacing: normal;
+
+    }
+
+    #timer{
+        width:40vw;
+        height: 7vh;
+    }
+
+    
+
     .form-select, .form-control, #income {
-        width: 100vw;
+        width: 100%;
     }
 
     .lead-capture{
         width:80vw;
+    }
+
+    .last-page{
+        width:100vw;
+        padding-top:75vh;
+       
+    }
+
+    .last{
+        margin-top:30vh;
+        
     }
 
 }
