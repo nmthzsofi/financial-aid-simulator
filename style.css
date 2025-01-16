@@ -442,7 +442,7 @@ select {
 
 /* For Tablets and Smaller Screens */
 /* For Tablets and Smaller Screens */
-@media (max-width: 910px) {
+@media (max-width: 1025px) {
     .page {
         min-height: 70vh; 
         gap:10px;
