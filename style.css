@@ -547,10 +547,6 @@ select {
         min-height: 70vh;
     }
 
-    .country-header{
-        height: 58px;
-    }
-
 
     .header {
         font-size: 2.2rem;
