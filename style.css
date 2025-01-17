@@ -400,12 +400,13 @@ label{
 }
 
 /*----------FILL IN ANIMATIONS----------*/
+
  .option-label, .control-button{
-    background-color: white;
     position:relative;
     z-index: 1;
     
 }
+
 
 .option-label::before, .control-button::before{
     content: '';
@@ -414,21 +415,22 @@ label{
     left: 0;
     width: 0;
     height: 100%;
-    color:white;
+    color:#fdf4ee;
     background-color: #eb5f33;
     transition: 0.4s ease;
     z-index: -1;
 }
 
   .option-label:hover::before, .control-button:hover::before {
-    color:white;
+    color:#fdf4ee;
     width: 100%;
   }
 
   .option-label:hover, .control-button:hover{
-    color:white;
+    color:#fdf4ee;
     transition: 0.3s ease;
   }
+    
 
 
 /* Hover and Focus Effects 
@@ -438,12 +440,6 @@ label{
     border: 1px solid #eb5f33;
 }
     */
-
-/* Use a proper selector for checked state */
-input[type="radio"]:checked + label.option-label {
-    background-color: #eb5f33;
-    color: white;
-}
 
 /* Radio Button Styles */
 .option-button {
@@ -479,7 +475,7 @@ select {
 
 /* For Tablets and Smaller Screens */
 /* For Tablets and Smaller Screens */
-@media (max-width: 910px) {
+@media (max-width: 1030px) {
     .page {
         min-height: 70vh; 
         gap:10px;
@@ -561,6 +557,20 @@ select {
     .lead-capture{
         width:80vw;
     }
+
+    /*
+
+    .option-label{
+        background-color: #fdebd4;
+        border: 1px solid #eb5f33;
+    }
+
+    .option-label:hover, .control-button:hover {
+        color: #fdebd4;
+        background-color: #eb5f33;
+        border: 1px solid #eb5f33;
+    }
+        */
 
 
 }
