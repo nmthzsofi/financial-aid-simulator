@@ -290,6 +290,11 @@ h1 {
 
 }
 
+#income{
+    width: 40vw;
+    height: 5vh;
+}
+
 .span{
     display:block;
     height:100px;
@@ -394,13 +399,45 @@ label{
     }
 }
 
+/*----------FILL IN ANIMATIONS----------*/
+ .option-label, .control-button{
+    background-color: white;
+    position:relative;
+    z-index: 1;
+    
+}
 
-/* Hover and Focus Effects */
+.option-label::before, .control-button::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    color:white;
+    background-color: #eb5f33;
+    transition: 0.4s ease;
+    z-index: -1;
+}
+
+  .option-label:hover::before, .control-button:hover::before {
+    color:white;
+    width: 100%;
+  }
+
+  .option-label:hover, .control-button:hover{
+    color:white;
+    transition: 0.3s ease;
+  }
+
+
+/* Hover and Focus Effects 
 .option-label:hover, .control-button:hover {
     color: #fdebd4;
     background-color: #eb5f33;
     border: 1px solid #eb5f33;
 }
+    */
 
 /* Use a proper selector for checked state */
 input[type="radio"]:checked + label.option-label {
@@ -545,6 +582,10 @@ select {
     .page-container {
         width: 100%; /* Make it more responsive */
         min-height: 70vh;
+    }
+
+    .country-header{
+        height: 58px;
     }
 
 
