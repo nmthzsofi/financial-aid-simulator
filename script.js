@@ -358,7 +358,7 @@ function showPage(pageId) {
 
         console.log("Net income reference loaded from the financialAidCalculator function" + netIncomeReference);
 
-        if(netIncomeReference < 20000 || netIncomeReference > 70000){
+        if(netIncomeReference < 25000 || netIncomeReference > 75000){
             return 0;
         }
 
@@ -527,13 +527,16 @@ function showPage(pageId) {
         let studyCost; 
 
         if (countryType == 'EEA/SW/UK'){
-            studyCost = 20000;
+            //studyCost = 20000;
+            studyCost = programCost * 0.8;
         }
-        else if ( countryFactor > 85){
-            studyCost = 20000;
+        else if ( countryFactor > 80){
+            //studyCost = 20000;
+            studyCost = programCost * 0.8;
         }
         else {
-            studyCost = 30000;
+            //studyCost = 30000;
+            studyCost = programCost;
         }
 
         /*
