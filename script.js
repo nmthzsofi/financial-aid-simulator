@@ -526,17 +526,19 @@ function showPage(pageId) {
         const academicFactor = await fetchAcademicFactor (selectedGrade);
         let studyCost; 
 
-        if (countryType == 'EEA/SW/UK'){
+        /*if (countryType == 'EEA/SW/UK'){
             //studyCost = 20000;
             studyCost = programCost * 0.8;
         }
-        else if ( countryFactor > 80){
+        else */
+        
+        if ( countryFactor > 80){
             //studyCost = 20000;
-            studyCost = programCost * 0.8;
+            studyCost = programCost;
         }
         else {
             //studyCost = 30000;
-            studyCost = programCost;
+            studyCost = programCost * 0.8;
         }
 
         /*
