@@ -609,8 +609,8 @@ function showPage(pageId) {
             { name: 'email', value: leadEmail.value },
             { name: 'firstname', value: leadFirstName.value },
             { name: 'lastname', value: leadLastName.value },
-            { name: 'country_of_residence___financial_aid_calculator', value: leadCountry.value },
-            { name: 'phone_number___financial_aid_calculator', value: leadPhoneNumber.value },
+            { name: 'country', value: leadCountry.value },
+            { name: 'phone', value: leadPhoneNumber.value },
             { name: 'start_year___financial_aid_calculator', value: leadStartYear.value },
             { name: 'program_of_interest___financial_aid_calculator', value: leadProgram.value },
 
